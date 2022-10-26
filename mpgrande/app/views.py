@@ -33,9 +33,46 @@ def home(request):
     return render(request, 'app/home.html')
 
 def index(request):
-    return render(request, 'app/index.html')
+    solicitudes =  solicitud.objects.order_by('-id')
+    solicitudes2 = productor_crear_solicitud.objects.order_by('-id')
+    subastas = productor_crear_solicitud.objects.order_by('-id')
+    
+    boletas2 = boleta.objects.order_by('-id')
+    contexto = {'solicitudes':solicitudes}
+
+    boletas = boleta.objects.count()
+    total11 = 0
+    total12 = 0
+    year = datetime.now().year
+
+    data11 = [] 
+    data12 = [] 
+
+    #enero
+    for m in range(0,boletas): 
+       
+        if  boleta.objects.filter(fec_boleta__month=11):
+            total11 = total11 +1
+
+        else:
+            total11 = 0
+    
+        data11.append((total11))
+       
+        if  boleta.objects.filter(fec_boleta__day=12):
+            total12 = total12 +1
+
+        else:
+            tota2 = 0
+    
+        data12.append((total12))
+
+    return  render(request, 'app/index.html',{'solicitudes':solicitudes, 'subastas':subastas,'solicitudes2':solicitudes2, 'boletas':boletas2,'data11':data11, 'data12':data12 })
 
 
+
+@login_required
+@has_role_decorator('moderador')
 def register(request):
 
     data = {'form': CustomUserCreationFrom()}
@@ -99,10 +136,10 @@ def create_user(request):
     usuarios = Usuario.objects.order_by('id')
     if request.method == 'GET': 
 
-        form_usuario = UsuariolFrom()
+        form_usuario = UserFrom()
       
     else:
-        form_usuario = UsuariolFrom(request.POST)
+        form_usuario = UserFrom(request.POST)
 
         if  form_usuario.is_valid():
 
@@ -129,11 +166,11 @@ def modify_user(request, id):
     usuario = get_object_or_404(Usuario, id=id)#buscar personal
 
     data = {
-        'form_usuario':UsuariolFrom(instance=usuario)
+        'form_usuario':UserFrom(instance=usuario)
     }
 
     if request.method == 'POST':
-        formulario = UsuariolFrom(data=request.POST, instance=usuario, files=request.FILES)#cargar formulario con el contexto y instance para pasarle la id
+        formulario = UserFrom(data=request.POST, instance=usuario, files=request.FILES)#cargar formulario con el contexto y instance para pasarle la id
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Modificado correctamente")
@@ -141,12 +178,14 @@ def modify_user(request, id):
 
     return render(request, 'app/modify_user.html', data)   
 
+@login_required 
+@has_role_decorator('moderador')
 def create_staff(request):
     personal = Personal.objects.order_by('-id')
     if request.method == 'POST':
         formulario = CustomUserCreationFrom(data=request.POST)
         
-        from_personal = PersonalFrom(request.POST, request.FILES)
+        from_personal = StaffFrom(request.POST, request.FILES)
 
         if from_personal.is_valid():
             instance = from_personal.save(commit=False)
@@ -184,7 +223,7 @@ def create_staff(request):
             
             return redirect(index)
     else:
-        from_personal = PersonalFrom
+        from_personal = StaffFrom
         
     return  render(request, 'app/create_staff.html',{'from_personal':from_personal,'personal':personal })    
 
@@ -213,11 +252,11 @@ def modify_staff(request, id):
     personal = get_object_or_404(Personal, id=id)#buscar personal
 
     data = {
-        'from_personal':PersonalFrom(instance=personal)
+        'from_personal':StaffFrom(instance=personal)
     }
 
     if request.method == 'POST':
-        formulario = PersonalFrom(data=request.POST, instance=personal, files=request.FILES)#cargar formulario con el contexto y instance para pasarle la id
+        formulario = StaffFrom(data=request.POST, instance=personal, files=request.FILES)#cargar formulario con el contexto y instance para pasarle la id
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Modificado correctamente")
@@ -231,7 +270,7 @@ def create_product(request):
     productos = producto.objects.order_by('-id')
     if request.method == 'POST':
 
-        from_producto = PorductoFrom(request.POST, request.FILES)
+        from_producto = StaffFrom(request.POST, request.FILES)
         if from_producto.is_valid():
             instance = from_producto.save(commit=False)
             instance.usuario_fk = request.user    
@@ -246,7 +285,7 @@ def post_create_product(request):
     productos = desc_fruta.objects.order_by('-id')
     if request.method == 'POST':
 
-        from_producto = Post_PorductoFrom(request.POST, request.FILES)
+        from_producto = Post_ProductFrom(request.POST, request.FILES)
         if from_producto.is_valid():
             instance = from_producto.save(commit=False)
             instance.productor_fk = request.user    
@@ -258,7 +297,7 @@ def post_create_product(request):
 
 
     else:
-        from_producto = Post_PorductoFrom
+        from_producto = Post_ProductFrom
         
     return  render(request, 'app/post_create_product.html',{'from_producto':from_producto, 'productos':productos } )
 
@@ -294,11 +333,11 @@ def modify_product(request,id):
     Producto = get_object_or_404(producto, id=id)
     
     data = {
-        'from_producto':PorductoFrom(instance=Producto)
+        'from_producto':ProductFrom(instance=Producto)
     }
 
     if request.method == 'POST':
-        formulario = PorductoFrom(data=request.POST, instance=Producto, files=request.FILES)
+        formulario = ProductFrom(data=request.POST, instance=Producto, files=request.FILES)
         if formulario.is_valid():
             
             formulario.save()
@@ -313,11 +352,11 @@ def modify_post_product(request,id):
     Producto = get_object_or_404(desc_fruta, id=id)
     
     data = {
-        'from_producto':Post_PorductoFrom(instance=Producto)
+        'from_producto':Post_ProductFrom(instance=Producto)
     }
 
     if request.method == 'POST':
-        formulario = Post_PorductoFrom(data=request.POST, instance=Producto, files=request.FILES)
+        formulario = Post_ProductFrom(data=request.POST, instance=Producto, files=request.FILES)
         if formulario.is_valid():
             
             formulario.save()
@@ -344,12 +383,12 @@ def create_sale(request,id ):
     Producto = get_object_or_404(producto, id=id)
     ventas = venta.objects.order_by('-id')
     data = {
-        'from_producto':Porducto_dps_ventaFrom(instance=Producto)
+        'from_producto':Post_product_saleFrom(instance=Producto)
     }
 
     if request.method == 'POST':
 
-        from_venta = ventaFrom(request.POST, request.FILES)
+        from_venta = SaleFrom(request.POST, request.FILES)
         
         if from_venta.is_valid():
 
@@ -358,7 +397,7 @@ def create_sale(request,id ):
             instance.usuario_fk = request.user    
             instance.save() 
 
-            formulario = Porducto_dps_ventaFrom(data=request.POST, instance=Producto, files=request.FILES)
+            formulario = Post_product_saleFrom(data=request.POST, instance=Producto, files=request.FILES)
             
             if formulario.is_valid():
             
@@ -369,9 +408,9 @@ def create_sale(request,id ):
                 instance.save() 
 
             messages.success(request, "Venta Creada")
-            return redirect(mis_ventas)
+            return redirect(my_sales)
     else:
-        from_venta = ventaFrom
+        from_venta = SaleFrom
         
     return  render(request, 'app/create_sale.html',{'from_venta':from_venta, 'ventas':ventas} )
 
@@ -396,17 +435,17 @@ def modify_sales(request,id):
     ventas = get_object_or_404(venta, id=id)
 
     data = {
-        'from_venta':ventaModifcarFrom(instance=ventas)
+        'from_venta':Sale_modifyFrom(instance=ventas)
     }
 
     if request.method == 'POST':
-        formulario = ventaFrom(data=request.POST, instance=ventas, files=request.FILES)
+        formulario = SaleFrom(data=request.POST, instance=ventas, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Modificado correctamente")
             return redirect('list_sales')
 
-    return render(request, 'app./modify_sales.html', data) 
+    return render(request, 'app/modify_sales.html', data) 
 
 
 
