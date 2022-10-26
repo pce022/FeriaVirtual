@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import View
-from app.models import Personal, Usuario
+from app.models import *
 from .forms import *
 from django.contrib.auth import authenticate, login
 from django.views.generic import TemplateView
