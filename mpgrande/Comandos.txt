@@ -49,4 +49,4 @@ git push origin "nombre de su branch"
 
 y para actualizar 
 
-git pull origin develop
+git pull origin develop (actualice lo que esta subido)
