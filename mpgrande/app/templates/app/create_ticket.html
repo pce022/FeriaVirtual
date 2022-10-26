@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %} Crear producto  {% endblock titulo %}
+
+{% block portada %} Crear producto {% endblock portada %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+        <h2> Boleta 🍑</h2>
+        
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+
+                {{ formulario.as_p }}
+
+
+                {% for p in ventas %} 
+
+                {% if p.id == venta_id.id %}
+               
+                <div>
+                   
+                    <h3>Productos  </h1> 
+                    <h5>-{{ p.fk_subasta.fk_solicitud.fk_frutas_espacio1  }} a ${{ p.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto  }} </h5>
+                    <h5>-{{ p.fk_subasta.fk_solicitud.fk_frutas_espacio2  }} a ${{ p.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto }}  </h5>
+                    <h5>-{{ p.fk_subasta.fk_solicitud.fk_frutas_espacio2  }} a ${{ p.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto  }} </h5>
+                      
+
+
+                    <h3>Transporte/subasta  </h3>   
+                    <h5>Transportista: {{ p.fk_subasta.fk_transportistaa_usuario.username }}  </h5>  
+                     
+                    <h5>Fecha Subasta {{ p.fec_venta }} </h5>   
+                    <h5>Precio: $ {{ p.fk_subasta.mi_apuesta  }}</h4> 
+                            
+                    
+
+
+
+                    
+                </div>
+
+                {% endif %}
+
+                {% endfor %} 
+
+
+
+                <input class="btn btn-default" type="submit" value="Crear boleta">
+
+              
+            </div>
+
+           
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

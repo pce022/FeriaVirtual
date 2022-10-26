@@ -696,3 +696,332 @@ def reject_producer_client_request(request,id):
 
 
     return render(request, 'app/info_approve_request.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id }) 
+
+
+@login_required 
+def participate_auction(request,id):
+    
+    Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    
+    data = {
+        'from_solicitud':subastaForm(instance=Solicitud)
+    }
+
+    if request.method == 'POST':
+        formulario = subastaForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        if formulario.is_valid():
+            estado = "Participando"
+            instance = formulario.save(commit=False)
+
+            instance.fk_estado_subasta = estado_subasta.objects.get(estado_subasta=estado)
+           
+            instance.fk_solicitud = Solicitud
+
+
+
+            instance.fk_estado_solicitud = estado_solicitud.objects.get(desc_estado_solicitud=estado)
+            messages.success(request, "Participando")
+            return redirect('list_producer_request')
+
+    return render(request, 'app/create_start_auction.html', data) 
+
+
+@login_required 
+def start_auction_participate(request,id):
+    id_solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    subastas = subasta.objects.order_by('id')
+
+    solicitudes = productor_crear_solicitud.objects.order_by('-id')
+   
+    data = {
+        'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud)
+    }
+
+    if request.method == 'POST':
+        formulario = IniciarsubastaForm(request.POST, request.FILES)
+        if formulario.is_valid():
+            instance = formulario.save(commit=False)
+            estado = "En curso"
+            
+            instance.fk_transportistaa_usuario = request.user
+            instance.fk_solicitud = id_solicitud
+            instance.fk_estado_subasta = estado_subasta.objects.get(estado_subasta=estado)            
+            instance.mi_apuesta = 1
+            instance.save() 
+
+            formulario2 = aprobar_solicitud_cliente_productorForm2(data=request.POST, instance=solicitud, files=request.FILES)
+            
+            if formulario2.is_valid():
+                instance = formulario2.save(commit=False)
+                estado = "Subasta en curso"
+                
+                instance.fk_estado_productor_crear_solicitud = estado_productor_crear_solicitud.objects.get(estado_venta=estado)   
+                #instance.usuario_fk = request.user 
+                instance.save() 
+           
+            messages.success(request, "Subasta creada")
+            return redirect('list_producer_request')
+
+    else:
+        formulario = IniciarsubastaForm
+    return render(request, 'app/create_start_auction.html',{'solicitudes':solicitudes,'id_solicitud':id_solicitud , 'formulario3':formulario,'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud),'subastas':subastas } )  
+
+
+@login_required 
+def participate_auction_carrier(request,id,id_subasta) :   
+     
+    id_solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    subasta_id = get_object_or_404(subasta, id=id_subasta)
+   
+    if request.method == 'POST':
+        formulario = participarSubastaForm(request.POST, request.FILES)
+        if formulario.is_valid():
+            instance = formulario.save(commit=False)
+            estado = "Participando"
+            instance.fk_estado_subasta = estado_subasta.objects.get(estado_subasta=estado)
+            instance.fk_transportistaa_usuario = request.user
+            instance.fk_solicitud = id_solicitud
+            instance.pais = subasta_id.pais
+            instance.cuidad = subasta_id.cuidad
+            instance.mi_direccion = subasta_id.mi_direccion
+            instance.save() 
+
+
+            messages.success(request, "Participando en la subasta")
+
+            #Enviar email al cliente
+
+            email =id_solicitud.fk_solicitud.usuario_fk.email
+            nombre =  request.user.username
+            subcjet = id_solicitud.fk_solicitud.usuario_fk
+            message="Un transportista ha participado en tu subasta número "+ str(subasta_id.id) + ", El transportista "+ nombre +" participó con $"+request.POST.get('mi_apuesta') +" pesos"
+            from_email = settings.EMAIL_HOST_USER #Email maipo grande
+            recipient_list = [email]#Email a enviar el correo
+            
+            send_mail(subcjet, message, from_email, recipient_list)
+
+            return redirect('list_producer_request')
+
+    else:
+        formulario = participarSubastaForm
+    return render(request, 'app/create_start_auction.html',{'id_solicitud':id_solicitud , 'formulario':formulario} )
+    
+
+@login_required 
+def end_auction(request, id,id2):
+    id_subastas = get_object_or_404(subasta, id=id) #ID SUBASTA
+    
+    id_solicitud = get_object_or_404(productor_crear_solicitud, id=id2)#id solicitud_subasta
+    solicitud = get_object_or_404(productor_crear_solicitud, id=id2)#id solicitud_subasta
+
+    subastas = subasta.objects.order_by('id')
+
+    data = {
+        'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud)
+    } 
+
+    
+    if request.method == 'POST':
+        
+        formulario = ventaFrom(request.POST, request.FILES)
+        if formulario.is_valid():
+
+            instance = formulario.save(commit=False)
+            instance.fk_estado_venta = estado_venta.objects.get(estado_venta="Venta en curso")
+            instance.usuario_fk = request.user
+            instance.fk_subasta = id_subastas
+            instance.save() 
+            
+
+            formulario2 = aprobar_solicitud_cliente_productorForm2(data=request.POST, instance=solicitud, files=request.FILES)
+            
+            if formulario2.is_valid():
+                instance = formulario2.save(commit=False)
+                estado = "Subasta terminada"
+                
+                instance.fk_estado_productor_crear_solicitud = estado_productor_crear_solicitud.objects.get(estado_venta=estado)     
+                #
+                
+                instance.save() 
+
+
+                #EMAIL
+                apuesta = request.POST.get('mi_apuesta')
+                email=    id_subastas.fk_transportistaa_usuario.email
+                subcjet = request.user.username
+
+
+                message="La subasta de "+ subcjet +" con la id "+ str(solicitud.id) + " finalizo, Usted " + str(id_subastas.fk_transportistaa_usuario)+ " es el ganado con la apuesta de $"+ str(id_subastas.mi_apuesta)+ " pesos. " """
+                Información de contacto del comprador """ +  """
+                Nombre: """ + subcjet + """
+                Email: """ + str(request.user.email)
+                        
+
+               
+                from_email = settings.EMAIL_HOST_USER #Email maipo grande
+                recipient_list = [email]#Email a enviar el correo
+                
+                send_mail(subcjet, message, from_email, recipient_list)
+
+
+            messages.success(request, "Subasata Terminada, venta creada con exito")
+            return redirect('list_producer_request')
+
+    else:
+        formulario = participarSubastaForm
+    return render(request, 'app./create_end_auction.html',{'id_solicitud':id_subastas , 'formulario':formulario, 'id_subastas':id_subastas,'subastas':subastas,'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud)  } )
+
+@login_required 
+def list_auction(request,id,nombreCliente,id_solicitud):
+    id_solicitud2 = get_object_or_404(subasta, id=id)
+    
+
+    solicitudes = subasta.objects.order_by('-mi_apuesta')
+    contexto = {'solicitudes':solicitudes}
+
+    return  render(request, 'app/list_auction.html',{'id_solicitud2':id_solicitud2,'solicitudes':solicitudes, 'nombreCliente':nombreCliente,'id_solicitud':id_solicitud})  
+
+
+@login_required 
+def delete_auction(request,id):
+    
+    Solicitud = get_object_or_404(subasta, id=id)
+    Solicitud.delete()
+    messages.success(request, "Eliminado correctamente")
+    return redirect('list_auction')
+
+@login_required 
+def sales_list(request):
+    ventas = venta.objects.order_by('-id')
+    
+    
+
+    return  render(request, 'app/sales_list.html',{'ventas':ventas})
+
+
+@login_required
+def create_ticket(request,id):
+    venta_id = get_object_or_404(venta, id=id) #ID SUBASTA
+    solicitud = get_object_or_404(venta, id=id) #ID SUBASTA
+    ventas = venta.objects.order_by('-id')
+
+    data = {
+        'formulario':aprobar_solicitud_cliente_productorForm2(instance=venta_id)
+    } 
+
+    if request.method == 'POST':
+        formulario = boletaForm(request.POST, request.FILES)
+        if formulario.is_valid():
+
+            instance = formulario.save(commit=False)
+            instance.usuario_fk = request.user
+            instance.fk_venta = venta_id
+            instance.valor_transporte = venta_id.fk_subasta.mi_apuesta #valor tranposrte
+            instance.valor_productos = venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto + venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto + venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto
+            instance.valor_total = venta_id.fk_subasta.mi_apuesta +   venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto + venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto + venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto
+            instance.save() 
+
+            formulario2 = venta_terminarForm(data=request.POST, instance=solicitud, files=request.FILES)
+            if formulario2.is_valid():
+                instance = formulario2.save(commit=False)
+                estado = "Venta terminada"
+ 
+                instance.fk_estado_venta = estado_venta.objects.get(estado_venta=estado)
+                instance.usuario_fk = request.user     
+                instance.save() 
+
+                
+                #email
+                email=    venta_id.fk_subasta.fk_solicitud.usuario_fk.email
+                subcjet = request.user.username
+                message="Su lote "+ str(venta_id.fk_subasta.fk_solicitud.id)+ " Fue vendido/a a: "+ str(venta_id.usuario_fk) +" Para mas Información puede descargar la boleta con id de venta "+ str(venta_id.id)
+                from_email = settings.EMAIL_HOST_USER #Email maipo grande
+                recipient_list = [email]#Email a enviar el correo
+                send_mail(subcjet, message, from_email, recipient_list)
+
+                messages.success(request, "Boleta creada")
+                return redirect('sales_list')
+
+
+
+    else:
+        formulario = boletaForm
+    return render(request, 'app/create_ticket.html',{'venta_id':venta_id , 'ventas':ventas,'formulario':formulario,'formulario':aprobar_solicitud_cliente_productorForm2(instance=venta_id) })  
+
+
+@login_required
+def list_ticket(request):
+
+    boletas = boleta.objects.order_by('-id')
+    return  render(request, 'app/list_ticket.html',{'boletas':boletas}) 
+
+
+@login_required
+def list_ticket_trans(request):
+
+    boletas = boleta.objects.order_by('-id')
+    return  render(request, 'app/list_ticket_trans.html',{'boletas':boletas}) 
+
+
+@has_role_decorator('consultor')
+@login_required
+def list_ticket_producer(request):
+
+    boletas = boleta.objects.order_by('-id')
+    return  render(request, 'app/list_ticket_producer.html',{'boletas':boletas}) 
+
+
+@login_required
+def list_ticket_client(request):
+
+    boletas = boleta.objects.order_by('-id')
+    return  render(request, 'app/list_ticket.html',{'boletas':boletas}) 
+
+@has_role_decorator('externo')
+def confirm_delivery(request,id):
+    Solicitud = get_object_or_404(venta, id=id)
+    formulario = confirmar_entrega_VentaForm
+    formulario2 = confirmar_entregaForm
+
+    data = {
+        'from_solicitud':confirmar_entregaForm(instance=Solicitud)
+    }
+
+
+    if request.method == 'POST':
+
+        formulario = confirmar_entrega_VentaForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario2 = confirmar_entregaForm(request.POST, request.FILES)
+
+        if formulario.is_valid() :
+            instance = formulario.save(commit=False)
+
+            instance.fk_estado_venta = estado_venta.objects.get(estado_venta="Venta terminada")
+            formulario.save()
+
+            #Enviar email al cliente
+
+            mensaje = request.POST.get('mensaje')
+
+            email = Solicitud.fk_subasta.fk_solicitud.usuario_fk.email
+            subcjet = request.user.username
+            message="El pedido "+ str(Solicitud.id)+ " fue entregado correctamente a " +  str(request.user.username) + "\nMensaje: "+ "\n" +str(mensaje)
+            from_email = settings.EMAIL_HOST_USER #Email maipo grande
+            recipient_list = [email]#Email a enviar el correo
+            send_mail(subcjet, message, from_email, recipient_list)
+
+            messages.success(request, "Entrega confirmada correctamente")
+            return redirect('sales_list')
+    
+      
+
+    return render(request, 'app/confirm_order.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,), 'formulario2':formulario2, 'formulario':formulario } )  
+
+
+
+def info_ticket(request,id):
+
+    boletas_id = get_object_or_404(boleta, id=id) 
+    boletas = boleta.objects.order_by('-id')
+    return  render(request, 'app/info_ticket.html',{'boletas_id':boletas_id,'boletas':boletas}) 
