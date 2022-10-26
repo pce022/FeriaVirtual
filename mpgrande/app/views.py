@@ -409,5 +409,251 @@ def modify_sales(request,id):
     return render(request, 'app./modify_sales.html', data) 
 
 
+@login_required 
+@has_role_decorator('externo')
+def create_request(request):
+    solicitudes = solicitud.objects.order_by('-id')
+    if request.method == 'POST':
+
+        from_solicitud = solicitud_from(request.POST, request.FILES)
+        if from_solicitud.is_valid():
+            estado = "Pendiente"
+            instance = from_solicitud.save(commit=False)
+            instance.usuario_fk = request.user
+            instance.fk_estado_solicitud = estado_solicitud.objects.get(desc_estado_solicitud=estado)
+                
+            instance.save() 
+            messages.success(request, "Solicitud creada a espera que un moderador la apruebe")
+            
+            return redirect('create_request')
+
+    else:
+        from_solicitud = solicitud_from
+        
+    return  render(request, 'app/create_request.html',{'from_solicitud':from_solicitud,'solicitudes':solicitudes } )
 
 
+@login_required 
+@has_role_decorator('productor') 
+def producer_create_request(request,id):
+    
+    id_solicitud = get_object_or_404(solicitud, id=id)
+    solicitudes = solicitud.objects.order_by('-id')
+
+    productos = producto.objects.order_by('-id')
+    if request.method == 'POST':
+
+        from_solicitud = productor_crear_solicitudFrom(request.POST, request.FILES)
+        if from_solicitud.is_valid():
+            estado = "Pendiente"
+            instance = from_solicitud.save(commit=False)
+            instance.fk_solicitud = id_solicitud
+            instance.usuario_fk = request.user
+            instance.fk_estado_productor_crear_solicitud = estado_productor_crear_solicitud.objects.get(estado_venta=estado)
+                
+            instance.save() 
+
+
+            #correo eletronico
+                    
+            email = id_solicitud.usuario_fk.email 
+            subcjet = id_solicitud.usuario_fk.username #Nombre del contacto  
+            message="El productor: " + str(request.user) + " creó  su solicitud de lote numero "+ str(id_solicitud.id)
+            from_email = settings.EMAIL_HOST_USER #Email maipo grande
+            recipient_list = [email]#Email a enviar el correo
+            send_mail(subcjet, message, from_email, recipient_list)
+
+
+            messages.success(request, "Lote creado a espera de la aprobacion del cliente")
+            
+            return redirect('listar_productor_solicitud')
+
+
+
+    else:
+        from_solicitud = productor_crear_solicitudFrom
+        
+    return  render(request, 'app/producer_create_request.html',{'from_solicitud':from_solicitud, 'solicitudes':solicitudes, 'productos':productos , 'id_solicitud':id_solicitud} )
+
+
+@login_required 
+@has_role_decorator('externo')
+def modify_request(request,id):
+    Solicitud = get_object_or_404(solicitud, id=id)
+    
+    data = {
+        'from_solicitud':solicitud_from(instance=Solicitud)
+    }
+
+    if request.method == 'POST':
+        formulario = solicitud_from(data=request.POST, instance=Solicitud, files=request.FILES)
+        if formulario.is_valid():
+            
+            formulario.save()
+            messages.success(request, "Modificado correctamente")
+
+         
+            return redirect('create_request')
+
+            
+
+    return render(request, 'app/modify_request.html', data) 
+
+
+@has_role_decorator('moderador')    
+@login_required 
+def modify_request_status(request,id):
+    Solicitud = get_object_or_404(solicitud, id=id)
+    
+    data = {
+        'from_solicitud':solicitud_aprobar_from(instance=Solicitud)
+    }
+
+    if request.method == 'POST':
+        formulario = solicitud_aprobar_from(data=request.POST, instance=Solicitud, files=request.FILES)
+        if formulario.is_valid():
+            
+            formulario.save()
+            messages.success(request, "Modificado correctamente")
+
+            #correo eletronico
+
+            email = Solicitud.usuario_fk.email 
+            subcjet = Solicitud.usuario_fk.username #Nombre del contacto  
+            estado = request.POST.get('fk_estado_solicitud')
+            if estado == '2':
+                message="Su solicitud " + str(Solicitud.id) + " fue aprobada"     
+
+            if estado == '1':
+                message="Su solicitud " + str(Solicitud.id) + " fue denegada"   
+
+            from_email = settings.EMAIL_HOST_USER #Email maipo grande
+            recipient_list = [email]#Email a enviar el correo
+            send_mail(subcjet, message, from_email, recipient_list)
+            return redirect('list_request')
+
+    return render(request, 'app/modify_request.html', data)
+
+
+@login_required 
+@has_role_decorator('externo')
+def delete_request(request,id):
+    Solicitud = get_object_or_404(solicitud, id=id)
+    Solicitud.delete()
+    messages.success(request, "Eliminado correctamente")
+    return redirect('create_request')
+
+
+@login_required 
+def list_request(request):
+    solicitudes = solicitud.objects.order_by('-id')
+    contexto = {'solicitudes':solicitudes}
+
+    return  render(request, 'app/list_request.html',contexto)    
+
+@login_required 
+def list_producer_request(request):
+    solicitudes = productor_crear_solicitud.objects.order_by('-id')
+    subastas = productor_crear_solicitud.objects.order_by('-id')
+    contexto = {'solicitudes':solicitudes}
+
+    return  render(request, 'app/list_producer_request.html',{'solicitudes':solicitudes, 'subastas':subastas})
+
+
+@login_required 
+def modify_list_producer_request(request,id):
+    Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    
+    data = {
+        'from_solicitud':productor_crear_solicitudFrom(instance=Solicitud)
+    }
+
+    if request.method == 'POST':
+        formulario = productor_crear_solicitudFrom(data=request.POST, instance=Solicitud, files=request.FILES)
+        if formulario.is_valid():
+            
+            formulario.save()
+            messages.success(request, "Modificado correctamente")
+            return redirect('list_producer_request')
+
+    return render(request, 'app/modify_request.html', data) 
+
+
+@login_required 
+def delete_modify_list_producer_request(request,id):
+    
+    Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    Solicitud.delete()
+    messages.success(request, "Eliminado correctamente")
+    return redirect('list_producer_request')
+
+
+@has_role_decorator('externo')
+@login_required 
+def approve_producer_client_request(request,id):
+    
+    Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    Solicitud_id = get_object_or_404(productor_crear_solicitud, id=id)
+    id_Solicitud = productor_crear_solicitud.objects.order_by('id')
+    
+    data = {
+        'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud)
+    }
+
+    if request.method == 'POST':
+
+        formulario = aprobar_solicitud_cliente_productorForm(data=request.POST, instance=Solicitud, files=request.FILES)
+
+        if formulario.is_valid():
+            instance = formulario.save(commit=False)
+
+            instance.fk_estado_productor_crear_solicitud = estado_productor_crear_solicitud.objects.get(estado_venta="Aprobado")
+            formulario.save()
+
+            #Enviar email al cliente
+
+            email = Solicitud.usuario_fk.email
+            subcjet = Solicitud.usuario_fk.username
+            message="Su solicitud número "+ str(Solicitud.id)+ " fue aprobada"
+            from_email = settings.EMAIL_HOST_USER #Email maipo grande
+            recipient_list = [email]#Email a enviar el correo
+            send_mail(subcjet, message, from_email, recipient_list)
+
+            messages.success(request, "Aprobado correctamente")
+            return redirect('list_producer_request')
+
+    return render(request, 'app/info_approve_request.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id })  
+
+
+@has_role_decorator('externo')
+@login_required 
+def reject_producer_client_request(request,id):
+    
+    Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
+    Solicitud_id = get_object_or_404(productor_crear_solicitud, id=id)
+    id_Solicitud = productor_crear_solicitud.objects.order_by('id')
+    
+    data = {
+        'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud)
+    }
+
+    if request.method == 'POST':
+        formulario = aprobar_solicitud_cliente_productorForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        if formulario.is_valid():
+            instance = formulario.save(commit=False)
+
+            instance.fk_estado_productor_crear_solicitud = estado_productor_crear_solicitud.objects.get(estado_venta="Rechazado")
+            formulario.save()
+
+            email = Solicitud.usuario_fk.email
+            subcjet = Solicitud.usuario_fk.username
+            message="Su solicitud número "+ str(Solicitud.id)+ " fue Rechazada"
+            from_email = settings.EMAIL_HOST_USER #Email maipo grande
+            recipient_list = [email]#Email a enviar el correo
+            send_mail(subcjet, message, from_email, recipient_list)
+            
+            messages.success(request, "Rechazado correctamente")
+            return redirect('list_producer_request')
+
+
+    return render(request, 'app/info_approve_request.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id }) 
