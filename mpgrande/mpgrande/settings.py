@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from telnetlib import LOGOUT
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,17 +29,43 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login'
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    "admin_interface",
+    'app.apps.AppConfig',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    "colorfield",
+    'rest_framework',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'rolepermissions',
+    'django_countries',
+    'django_ajax',
+    'pwa',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+SITE_ID = 1
+
+ROLEPERMISSIONS_MODULE = 'mpgrande.roles'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,6 +93,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'mpgrande.wsgi.application'
@@ -103,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -115,9 +148,38 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+MEDIA_URL= '/media/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_ROOT= os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "emailmaipogrande@gmail.com"
+EMAIL_HOST_PASSWORD= "DuocMaipu123"
+
+
+
+PWA_APP_NAME = "MaipoGrande"
+PWA_APP_DESCRIPTION = "Subasta Maipo grande"
+PWA_APP_THEME_COLOR = "#2D712D"
+PWA_APP_BACKGROUND_COLOR = "#2D712D"
+
+PWA_APP_ICONS = [
+    {
+        "src": "/app/img/fresa.png",
+        "size": "144px",
+    }
+]
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,"serviceworker.js")
