@@ -1,0 +1,38 @@
+{% block content %} 
+
+<div class="container">
+    <div class="col-md-6 col-md-offset-3 form-box">
+        <h2>Lista de usuaios</h2>
+        <hr width="50%">
+        <form method="POST">
+            <div class="form-group">
+        
+            <table>
+                <tbody>
+                    <tr>
+                        <th>id</th>
+                        <th>Email  </th>
+                        <th>Telefono </th>
+                        <th>Tipo usuario </th>
+                        <th>personal  </th>
+                    </tr>
+                {% if usuario  %}    
+                {% for p in usuario %}    
+                    <tr>
+                        <td>{{ p.id  }}</td>
+                        <td>{{ p.email_usuario  }}</td>
+                        <td>{{ p.movil_usuario  }}</td>
+                        <td>{{ p.Tipo_usuario_fk  }}</td>
+                        <td>{{ p.personal_id_fk  }}</td>
+                    </tr>
+                {% endfor %}    
+                {% else %}
+                <h3>No hay registros</h3>
+                {% endif %}
+                </tbody>
+
+            </table>            
+            </div>
+        </form>
+    </div>
+</div>
