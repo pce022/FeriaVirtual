@@ -40,6 +40,25 @@ urlpatterns = [
     path('list_sales/', list_sales, name ='list_sales'),
     path('delete_sales/<id>/', delete_sales, name ='delete_sales'),
     path('modify_sales/<id>/', modify_sales, name ='modify_sales'),
+    #Request
+    path('create_request/', create_request, name ='create_request'),
+    path('producer_create_request/<id>/', producer_create_request, name ='producer_create_request'),
+    path('modify_request/<id>/', modify_request, name ='modify_request'),
+    path('modify_request_status/<id>/', modify_request_status, name ='modify_request_status'),
+    path('delete_request/<id>/', delete_request, name ='delete_request'),
+    path('list_request/', list_request, name ='list_request'),
+    path('list_producer_request/', list_producer_request, name ='list_producer_request'),
+    path('modify_list_producer_request/<id>/', modify_list_producer_request, name ='modify_list_producer_request'),
+    path('delete_modify_list_producer_request/<id>/', delete_modify_list_producer_request, name ='delete_modify_list_producer_request'),
+    path('approve_producer_client_request/<id>/', approve_producer_client_request, name ='approve_producer_client_request'),
+    path('info_approve_request/<id>/', approve_producer_client_request, name ='info_approve_request'),
+    path('reject_producer_client_request/<id>/', reject_producer_client_request, name ='reject_producer_client_request'),
+    #Auction (Subasta)
+    
+
+
+
+
 
 
 ] 
