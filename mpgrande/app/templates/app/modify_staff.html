@@ -1,0 +1,21 @@
+{% block titulo %} Modificar personal  {% endblock titulo %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="col-md-8 col-md-offset-2 form-box">
+        <h2>Modificar personal</h2>
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+                {{ from_personal.as_p }}
+
+                <input class="btn btn-default" type="submit" value="Modificar personal">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

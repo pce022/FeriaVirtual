@@ -1,0 +1,52 @@
+# feriavirtual-maipogrande
+Pagina web, proyecto maipo grande, feria virtual
+
+browser-sync start --server --files "*" (se debe hacer dentro de la carpeta en donde queremos que lea el archivo principal)
+------------------------------------------------------------------
+DIR > PARA LISTAR TODO LO DE LAS CARPETAS
+CLS > para limpiar la consola
+---------------------------------------------------------------------------------------------
+git clone > para clonar lo que este en el repositorio en github
+git status > veritifcar estado de la rama en que se encuentra y verificar el movimiento 
+git checkout "nombre"> para cambiar de rama
+git add . > marcar algo para poder subirlo (marcar para comprometer)
+git add -A > para guardar cambios aunque se hayan borrado dato (IMPORTANTE)
+git commit -m "comentario x" > para subir algo en github
+git push > para confirmar la publicacion en github
+git pull origin > para actualizar cambios en repositorios locales y externos
+---------------------------------------------------------------------------------------------
+python -m venv (nombre_venv) > para crear el ambiente virtual
+maipovenv\scripts\activate.bat > para activar ambiente virtual
+deactivate > para desactivar ambiente virtual
+pip install django > se instala o actualiza django
+pip install freeze > instalar libreria que te permite ver que tienes instalado
+pip freeze > para ver que librerias hay instaladas
+pip install pillow > se instala o actualiza la libreria sirve paara la imagenes
+django-admin startproject "NOMBRE DEL PROYECTO" > así se crea la carpeta de django para el proyecto. 
+python manage.py startapp "nombre de la aplicacion por defecto app" > aqui se crea el modulo de la aplicacion (fijarse estar dentro de la carpeta)
+
+
+python manage.py makemigrations >
+python manage.py migrate >
+python manage.py createsuperuser > Duoc1 contraseña duocduoc
+python manage.py runserver
+
+
+pip install django==3.2.10
+pip3 install djangorestframework
+python -m pip install django-allauth
+pip install django-role-permissions
+pip install django_countries
+pip install django-admin-interface
+pip install django-crispy-forms
+pip install djangoajax
+pip install django-pwa
+
+
+git add . (en su branch)
+git commit -m "El comentario"
+git push origin "nombre de su branch"
+
+y para actualizar 
+
+git pull origin develop (actualice lo que esta subido)

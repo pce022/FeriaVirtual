@@ -1,0 +1,101 @@
+{% extends 'base/base.html' %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+        <h2>Información boleta 🍑</h2>
+        
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+
+                {{ formulario.as_p }}
+
+
+                {% for p in id_Solicitud %} 
+
+                    {% if p.id == Solicitud_id.id %}
+
+                    <div>
+                        <h2>Detalles </h4>
+                        
+                        <h3>Fruta 1:  </h1> {{ p.fk_frutas_espacio1  }}  a ${{ p.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto }}
+                        <h3>Fruta 2:  </h1> {{ p.fk_frutas_espacio2  }}  a ${{ p.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto }}
+                        <h3>Fruta 3:  </h1> {{ p.fk_frutas_espacio3  }}  a ${{ p.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto }}
+    
+                            
+                    </div>
+
+
+                    {% endif %}
+                    
+                {% endfor %} 
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Fecha</th>
+                            <th>Usuario </th>
+                            <th>Code Venta</th>
+                            <th>Transporte</th>
+                            <th>Productos</th>
+                            <th>Total </th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    {% if boletas  %}    
+                    {% for p in boletas %}   
+                    <tbody>
+                        <tr>
+                            {% if p.id == boletas_id  %}
+                            <td>{{ p.id  }}</td>
+                            <td>{{ p.fec_boleta  }}</td>
+                            <td>{{ p.usuario_fk  }}</td>
+                            <td>{{ p.fk_venta  }}</td>
+                            <td>{{ p.valor_transporte  }}</td>
+                            <td>{{ p.valor_productos  }}</td>
+                            <td>{{ p.valor_total  }}</td>
+                            <td>
+                                
+                          
+    
+                                {% if   p.usuario_fk.username == user.username %} <!-- PARA FK---->
+    
+                                      <a href="{%  url 'pdf_converterViews' p.id %}" class="btn btn-info btn-sm ">Descargar pdf</a>
+                                      <a href="{%  url 'info_ticket' p.id %}" class="btn btn-info btn-sm ">Mas Información</a>
+                                {% endif  %}
+    
+                                
+                                
+    
+                                {% if perms.cuenta.delete_producto  %}
+                                {% endif %}
+    
+                                {% endif %}    
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}    
+                    {% else %}
+                    <h3>No hay registros</h3>
+                    {% endif %}
+                    </tbody>
+    
+                </table>       
+
+                <input class="btn btn-default" type="submit" value="Aceptar">
+
+              
+            </div>
+
+           
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
