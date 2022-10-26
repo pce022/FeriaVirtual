@@ -1,0 +1,31 @@
+{% extends 'base/sidebar.html' %}
+
+{%load static%} 
+
+{% block contenido %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static 'app/css/index.css'%}">
+{%endblock%} 
+
+<main>
+    <h1 class="title"> Procesos de venta</h1>
+    <div class="container-bloc">
+        {%for p in procesos%}
+        <div class="card">
+            {%if p.imagen%}
+            <img src="{{p.imagen.url}}" alt="imagen producto">
+            {%endif%}
+            <h4>{{p.process_name}}</h4>
+            <p>Descripcion</p>
+        </div>
+        {% empty %}
+            <p>Lo sentimos, no existen procesos de venta activos.</p>
+        {%endfor%}
+    </div>
+    
+    
+    
+</main>
+
+{% endblock %}
