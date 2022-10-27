@@ -49,11 +49,9 @@
                     <a href="{% url 'logout' %}" clas>Cerrar sesión</a> 
                     <a href="#" id="none">Usuario: {{user.username}}</a> 
                     {% else %}
-                    <a href="{% url 'login' %}">Iniciar sesión</a>
-                    <a href="{% url 'registro' %}">Registrate</a>
-                    {% if perms.cuenta.add_personal %}
-                    <a href="{% url 'crear_personal' %}">Crear personal</a>
-                    {% endif %}
+                    <a href="/accounts/login/">Inicia sesión</a>
+                    <a href="/message_register">Solicitud de registro</a>
+                    
                     {% endif %}
                 </li>
             </ul>
@@ -95,6 +93,10 @@
 
             {% if user|has_role:'consultor'  %}
             <a href="{% url 'listar_boletaProductor' %}">  Boletas </a>
+            {% endif %}
+
+            {% if perms.cuenta.add_personal %}
+            <a href="{% url 'crear_personal' %}">Crear personal</a>
             {% endif %}
 
             

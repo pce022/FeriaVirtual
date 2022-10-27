@@ -2,30 +2,323 @@
 
 {%load static%} 
 
-{% block contenido %}
-
-{%block css%} 
-<link rel="stylesheet" href="{% static 'app/css/index.css'%}">
-{%endblock%} 
+{% block contenido %} 
+{% load permission_tags %}
 
 <main>
-    <h1 class="title"> Procesos de venta</h1>
-    <div class="container-bloc">
-        {%for p in procesos%}
-        <div class="card">
-            {%if p.imagen%}
-            <img src="{{p.imagen.url}}" alt="imagen producto">
-            {%endif%}
-            <h4>{{p.process_name}}</h4>
-            <p>Descripcion</p>
+    <div class="container">
+        <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+            <h2> Hola, {{user.username}}🍑</h2> 
+            
+            <hr width="30%">
+            <form method="POST">
+                <div class="form-group">
+            
+                   
+                    <div>
+                       
+                      
+                       <table class="table table-bordered">
+    
+                        {% if user|has_role:'externo' or user|has_role:'interno'  %}
+                        <h3>Mis solicitudes de creación de lote pendientes</h3>
+                        <table class="table table-bordered">
+                    
+                                   
+                            <tbody>
+                                <tr>
+                                    <th>id</th>
+                                    
+                                    <th>Estado</th>
+                                    <th>Fruta espacio 1</th>
+                                    <th>Fruta espacio 2</th>
+                                    <th>Fruta espacio 3</th>
+                                    <th>Opciones</th>
+                                    
+                                </tr>
+                            
+                            
+                            {% if solicitudes  %}    
+                            {% for p in solicitudes %}  
+                                {% if p.usuario_fk.username == user.username %} 
+                                {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente"%} 
+                                    <tr>
+                                        <td> {{ p.id }} </td>
+                                        
+                                        <td>{{ p.fk_estado_solicitud  }} </td>
+                                    
+                                        <td>{{ p.nombre_fruta_espacio1  }} {{ p.kilos_fruta_espacio1 }} Kilos </td>
+                                        <td>{{ p.nombre_fruta_espacio2  }} {{ p.kilos_fruta_espacio2 }} Kilos </td>
+                                        <td>{{ p.nombre_fruta_espacio3  }} {{ p.kilos_fruta_espacio3 }} Kilos </td>
+                                        <td>
+                                            {% load permission_tags %}
+                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente" and p.usuario_fk.username == user.username  or  user|has_role:'moderador'  %}
+                                            <a href="{%  url 'modificar_solicitud' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
+                                            {% endif %}
+    
+                                            <a href="#" onclick="eliminarSolicitud({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+                                            
+                                            
+                                            {% if  user|has_role:'moderador'  %}
+    
+                                            <a href="{%  url 'modificar_estado_solicitud' p.id %}" class="btn btn-info btn-sm ">Modificar Estado</a>
+                                            {% endif %}
+    
+                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Aprobado" and user|has_role:'moderador'  %}
+                                            <a href="{%  url 'productor_crear_solicitudes' p.id %}" class="btn btn-info btn-sm ">Crear lote</a>
+                                            {% endif %}
+                                        </td>
+
+
+                                        
+                                    </tr>
+                                {% endif %}
+                                {% endif %}
+                            {% endfor %}     
+                            {% else %}
+                            <h3>No hay registros</h3>
+                            {% endif %}
+                            </tbody>
+            
+                        </table> 
+                        {% endif %}
+    
+    
+                        {% if user|has_role:'productor'   %}
+    
+                        <h3>Mis solicitudes de lote pendientes</h3>
+                      
+                        <table class="table table-bordered">
+    
+                            <tbody>
+                                <tr>
+                                    <th> id </th>
+                                    <th> Cliente </th>
+                                    <th> Estado </th>
+                                    <th> Fruta espacio 1  </th>
+                                    <th> Fruta espacio 2  </th>
+                                    <th> Fruta espacio 3  </th>
+                                    
+                                    <th> Solicitud </th>
+            
+                                    
+                                    <th>Opciones</th>
+                                    
+                                </tr>
+                            
+                                
+                            {% if solicitudes2  %}    
+            
+                                {% for p in solicitudes2 %}  
+                                    
+                                    {% load permission_tags %}     
+            
+                                    {% if p.fk_solicitud.usuario_fk.username == user.username or p.usuario_fk.username == user.username %}
+                                    {% if  p.fk_estado_productor_crear_solicitud.estado_venta  == "Pendiente"   %}
+                                                
+                                    <tr>    
+                                     
+                                        <td>{{ p.id }} </td>
+                                        <td>{{ p.fk_solicitud.usuario_fk  }}</td>
+                                        <td>{{ p.fk_estado_productor_crear_solicitud  }}</td>
+            
+                                        <td>{{ p.fk_frutas_espacio1 }} a ${{p.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto }}   </td>
+                                        <td>{{ p.fk_frutas_espacio2  }} a ${{p.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto }} </td>
+                                       
+                                        <td>{{ p.fk_frutas_espacio3  }} a ${{p.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto }}</td>
+                                        
+                                        
+                                        <td>{{ p.fk_solicitud }} </td>
+            
+                                        
+                                        <td>
+    
+                                            {% if  user|has_role:'productor' and p.usuario_fk.username  == user.username  %}
+            
+                                            <a href="#" onclick="eliminar({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+            
+                                            {% endif %}
+            
+                                            {% if  p.fk_estado_productor_crear_solicitud.estado_venta  == "Pendiente"   %}
+            
+                                                {% if  user|has_role:'externo' or user|has_role:'interno'   %}
+                                                <a href="{%  url 'aprobar_solicitud_cliente_productor' p.id %}" class="btn btn-info btn-sm ">Aprobarr</a>
+                                                <a href="{%  url 'rechazar_solicitud_cliente_productor' p.id %}" class="btn btn-info btn-sm ">Rechazar</a>
+                                                {% endif %}
+            
+                                            {% endif %}
+            
+            
+                                            {% if p.fk_solicitud.usuario_fk.username  == user.username and  p.fk_estado_productor_crear_solicitud.estado_venta  == "Aprobado"  %}
+                                            <a href="#" onclick="eliminar({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+                                            <a href="{%  url 'iniciar_subasta_participar' p.id %}" class="btn btn-info btn-sm ">Crear subasta</a>
+                                            {% endif %}
+            
+                                            
+                                        
+                                            {% if   p.fk_estado_productor_crear_solicitud.estado_venta  == "Subasta en curso"  %}
+            
+                                            <a href="{%  url 'listar_subasta' p.id p.fk_solicitud.usuario_fk p.fk_solicitud %}" class="btn btn-info btn-sm ">Ver subasta</a>
+                                            
+                                            {% endif %}
+            
+                                            
+                                            
+                                        </td>
+            
+            
+                                    </tr>
+                                            
+                                    {% endif %}
+                                    {% endif %}
+                                    
+                                   
+                                            
+                                   
+                                {% endfor %}     
+                            {% else %}
+                            <h3>No hay registros</h3>
+                            {% endif %}
+                            {% endif %}
+                            </tbody>
+            
+                         
+    
+    
+                        {% if user|has_role:'transportista'   %}
+                        <h3>Productos entregados</h3>
+                        <table class="table table-bordered">
+                        {% if  p.fk_venta.fk_estado_venta.estado_venta != 'Productos entregados'%}
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente </th>
+                                    <th>Id venta</th>
+                                    <th>Estado</th>
+                                    
+                                    <th>Transportista </th>
+                                   
+                                </tr>
+                            </thead>
+                              
+                            {% for p in boletas %}   
+                            <tbody>
+                                <tr>
+                                    {% if  p.fk_venta.fk_estado_venta.estado_venta == 'Productos entregados'%}
+                                    {% if p.fk_venta.fk_subasta.fk_transportistaa_usuario == user   %}
+                                    <td>{{ p.id  }}</td>
+                                    <td>{{ p.fec_boleta  }}</td>
+                                    <td>{{ p.usuario_fk  }}</td>
+                                    <td>{{ p.fk_venta  }}</td>
+                                    <td>{{ p.fk_venta.fk_estado_venta  }}</td>
+                                    <td>{{ p.fk_venta.fk_subasta.fk_transportistaa_usuario }}</td>
+                                    
+                                   
+                                        
+                                    {% endif %}    
+                                    {% endif %}  
+                                    
+                                </tr>
+                            {% endfor %} 
+                            
+                            
+                        {% else %}
+                        <h3>No hay registros</h3>
+                        {% endif %}
+    
+    
+    
+                            </tbody>
+                        </table>     
+                        {% endif %}  
+                    </table>
+    
+                    </div>
+                    {% if user|has_role:'moderador'   or  user|has_role:'consultor'  %}
+                      
+                        
+                        <form method="POST">
+                        <div class="form-group">
+    
+                            <div id="container"></div>
+                            <p class="highcharts-description">
+                            </p>
+    
+                        </div>
+                        <script >
+    
+    
+                            Highcharts.chart('container', {
+                                chart: {
+                                    type: 'column'
+                                },
+                                title: {
+                                    text: 'Reporte de ventas del año'
+                                },
+                                subtitle: {
+                                    text: ''
+                                },
+                                xAxis: {
+                                    categories: [
+                                        'Enero',
+                                        'Febrero',
+                                        'Marzo',
+                                        'Abril',
+                                        'Mayo',
+                                        'Junio',
+                                        'Julio',
+                                        'Agosto',
+                                        'Septiembre',
+                                        'Octubre',
+                                        'Noviembre',
+                                        'Diciembre'
+                                    ],
+                                    crosshair: true
+                                },
+                                yAxis: {
+                                    min: 0,
+                                    title: {
+                                        text: 'Cantidad de ventas'
+                                    }
+                                },
+                                tooltip: {
+                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                                    footerFormat: '</table>',
+                                    shared: true,
+                                    useHTML: true
+                                },
+                                plotOptions: {
+                                    column: {
+                                        pointPadding: 0.2,
+                                        borderWidth: 0
+                                    }
+                                },
+                                series: [{
+                                    name: 'Venta ',
+                                    showInLegend: false,
+                                    colorByPoint: true,
+                                    data:  [0,0,0,0,0,0,0,0,0,0,0 ,{{data11}} ]
+            
+            
+            
+                                }];
+                            });
+            
+                        </script>
+    
+                        
+                    {% endif %}  
+                  
+                </div>
+            
+               
+                   
+            </form>
         </div>
-        {% empty %}
-            <p>Lo sentimos, no existen procesos de venta activos.</p>
-        {%endfor%}
     </div>
-    
-    
-    
 </main>
 
-{% endblock %}
+{% endblock content %}

@@ -44,8 +44,8 @@
                     <a href="{% url 'index' %}">Perfil</a>
                     <a href="{% url 'logout' %}">Cerrar sesión</a>
                     {% else %}
-                    <a href="{% url 'login' %}">Iniciar sesión</a>
-                    <a href="{% url 'register' %}">Registrate</a>
+                    <a href="/accounts/login/">Inicia sesión</a>
+                    <a href="/message_register">Solicitud de registro</a>
                     {% endif %}
                 </li>
             </ul>
