@@ -1,0 +1,144 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 1.2 rem;
+    line-height: 1.6em;
+    margin:0 ;
+
+}
+
+#h1estilo{
+    font-size: 30px;
+    font-family: 'Dancing Script', cursive;
+    float: left;
+    margin-left: 10px;
+}
+
+
+p{
+    margin-bottom: 1.6em;
+}
+
+.container {
+    width: 90%;
+	max-width: 1200px;
+	margin: auto;
+
+
+}
+
+.header {
+    background: rgb(45, 113, 45);
+    color: white;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;left: 0;
+    
+}
+    .header a {
+        color: white;
+        text-decoration: none;
+    }
+
+
+.logo-nav-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-nav-container img{
+    width: 200px;
+    height: 100x;   
+}
+
+.navigation ul{
+    margin: 0;
+    padding: 0;
+    list-style: none ;
+}
+
+.navigation ul li a{
+    margin-right: 2em;
+    transition: all 0.4s linear;
+    border-radius: 5px;
+}
+
+.navigation ul li a:hover{
+    color: black;
+
+}
+#none{
+    transition: none;
+    color: rgb(141, 248, 0);
+    cursor: auto;
+
+}
+
+/*Estilos para el menu lateral*/
+
+.container .btn-menu label{
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+}
+/*Boton menu ↑*/
+
+#btn-menu{
+    display: none;
+}
+.container-menu{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;left: 0;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+}
+#btn-menu:checked ~ .container-menu{
+    opacity: 1;
+    visibility: visible;
+}
+.cont-menu{
+    width: 100%;
+    max-width: 250px;
+    background: rgb(38, 97, 38);
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform: translateX(-100%);
+    
+}
+#btn-menu:checked ~ .container-menu .cont-menu{
+    transform: translateX(0%);
+}
+.cont-menu nav{
+    transform: translateY(15%);
+}
+.cont-menu nav a{
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    color: white;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;
+}
+.cont-menu nav a:hover{
+    border-left: 5px solid white;
+	background: rgb(22, 56, 22);
+}
+.cont-menu label{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.cont-menu label:hover{
+    color: black;
+}
