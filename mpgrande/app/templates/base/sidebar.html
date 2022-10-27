@@ -10,11 +10,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500&family=Montserrat:wght@300&display=swap" rel="stylesheet"> 
     {%load static%}
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+     <!-- estilos -->
     <link rel="stylesheet" href="{% static 'app/css/sidebar.css'%}">
+    <!-- estilos -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+       
+        {% load pwa %}
+        {% progressive_web_app_meta %}
     
     <title>Feria Virtual, Maipo Grande</title>
 </head>
@@ -33,7 +50,10 @@
                     <a href="#" id="none">Usuario: {{user.username}}</a> 
                     {% else %}
                     <a href="{% url 'login' %}">Iniciar sesión</a>
-                    <a href="{% url 'register' %}">Registrate</a>
+                    <a href="{% url 'registro' %}">Registrate</a>
+                    {% if perms.cuenta.add_personal %}
+                    <a href="{% url 'crear_personal' %}">Crear personal</a>
+                    {% endif %}
                     {% endif %}
                 </li>
             </ul>
@@ -44,21 +64,40 @@
 <div class="container-menu">
 	<div class="cont-menu">
 		<nav>
-			<a href="{% url 'index' %}">Procesos de venta</a>
 			<a href="#">nodef</a>
-			<a href="#">nodef</a>
-			<a href="#">nodef</a>
-			<a href="#">nodef</a>
-			<a href="#">nodef</a>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <h1 id="h1estilo" >Grupo 4</h1>
+            {% load permission_tags %}
 
+            {% if user|has_role:'moderador'  %}
+            <a href="{% url 'crear_personal' %}"> Personal</a>
+            <a href="{% url 'listar_solicitud' %}"> Solicitudes</a>
+            <a href="{% url 'registro' %}"> Registrar usuario</a>
+            {% endif %}
+
+            {% if user|has_role:'externo' or user|has_role:'interno'  %}
+            <a href="{% url 'crear_solicitud' %}"> Solicitud</a>
+            <a href="{% url 'listar_productor_solicitud' %}"> Solicitudes Lotes y subastas </a>
+            <a href="{% url 'listar_ventas' %}"> Mis ventas </a>
+            <a href="{% url 'listar_boleta' %}"> Mis boletas </a>
+            {% endif %}
+
+            {% if user|has_role:'productor'   %}
+            <a href="{% url 'crear_producto' %}"> Mis Productos</a> 
+            <a href="{% url 'post_crear_producto' %}"> Inventario</a> 
+            <a href="{% url 'listar_solicitud' %}"> Solicitudes de creación de lote </a> 
+            <a href="{% url 'listar_productor_solicitud' %}"> Lotes creados</a>  
+            <a href="{% url 'listar_boleta' %}"> Mis boletas </a> 
+            {% endif %}
+
+            {% if user|has_role:'transportista'  %}     
+            <a href="{% url 'listar_productor_solicitud' %}"> Subastas disponibles </a>  
+            <a href="{% url 'listar_boleta' %}"> Mis boletas </a> 
+            {% endif %}
+
+            {% if user|has_role:'consultor'  %}
+            <a href="{% url 'listar_boletaProductor' %}">  Boletas </a>
+            {% endif %}
+
+            
 
 		</nav>
 		<label for="btn-menu">X</label>
@@ -69,6 +108,19 @@
 {% block contenido %}
 
 {% endblock  %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
+    {% if messages %}
+        {% for m in messages %}
+        <script>
+            Swal.fire({
+                title: 'NICE!',
+                text: "{{m}}",
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+                })
+        </script>
+        {% endfor %}
+    {% endif %}  
 </html>
