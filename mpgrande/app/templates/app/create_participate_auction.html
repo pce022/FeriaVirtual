@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %} Participar en subasta  {% endblock titulo %}
+
+{% block portada %} Participar en subasta {% endblock portada %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+        <h2>Participar en subasta 🍑</h2>
+        
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+              
+                {% for p in solicitudes %} 
+                
+
+                    {% if p.id == id_solicitud.id %}
+
+                      
+                       <div>
+                        <h2>Productos de la subasta:</h4>
+                        <h3>Producto 1: </h1> {{ p.fk_solicitud.fk_frutas_espacio1  }}
+                        <h3>Producto 2: </h1> {{ p.fk_solicitud.fk_frutas_espacio2  }}    
+                        <h3>Producto 3: </h1> {{ p.fk_solicitud.fk_frutas_espacio2  }}   
+
+                       </div>
+
+                    {% endif %}
+
+                {% endfor %} 
+
+                {% csrf_token %} <!--validar -->
+
+                {{ formulario.as_p }}
+
+                <input class="btn btn-default" type="submit" value="Iniciar subasta">
+
+                
+
+                <hr width="30%">
+            </div>
+
+           
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

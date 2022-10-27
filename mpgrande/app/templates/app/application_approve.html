@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %} Modificar solicitud  {% endblock titulo %}
+
+{% block portada %} Modificar solicitud   {% endblock portada %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="col-md-8 col-md-offset-2 form-box">
+        <h2>Modificar solicitud</h2>
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+                {{ from_solicitud.as_p }}
+
+                <input class="btn btn-default" type="submit" value="Modificar solicitud">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
