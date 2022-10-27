@@ -50,21 +50,6 @@
                 </li>
             </ul>
         </nav>
-        <nav class="navigation">
-            <ul>
-                <li>
-                    <a href="#">Nosotros</a>
-                    {% if user.is_authenticated %} 
-                    <a href="#" id="none">Usuario: {{user.username}}</a> 
-                    <a href="">Perfil</a>
-                    <a href="">Cerrar sesión</a>
-                    {% else %}
-                    <a href="">Iniciar sesión</a>
-                    <a href="">Registrate</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </nav>
     </div>
 </header>
 
