@@ -1,0 +1,112 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}  Inventario  {% endblock titulo %}
+
+{% block portada %} Registrar Fruta {% endblock portada %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+        <h2>Inventario 🍑</h2>
+        
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+
+                {{ from_producto.as_p }}
+
+                <input class="btn btn-default" type="submit" value="Registrar producto">
+
+                <h2 class="reg-prod">Mi inventario</h2>
+
+                <hr width="30%">
+            </div>
+
+            <script>
+                function eliminarProducto(id){
+                    Swal.fire({
+                    "title": '¿Estás seguro?',
+                    "text": "Una vez borrado no se podrá recuperar",
+                    "icon": 'warning ',
+                    "showCancelButton": true,
+                    "confirmButtonColor": '#3085d6',
+                    "cancelButtonColor": '#d33',
+                    "cancelButtonText":"No, Cancelar", 
+                    "confirmButtonText": 'Si, Eliminar',
+                    "reverseButtons":true  
+            
+                    }).then(function(result) {
+                        if (result.isConfirmed) {
+                        window.location.href = "/eliminar_post_producto/"+id+"/"
+                    }
+                    })
+            
+                }
+            
+            </script>
+
+           
+             
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Nombre</th>
+                        <th>Peso</th>
+                        <th>Valor </th>
+
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                {% if productos  %}    
+                {% for p in productos %}   
+                <tbody>
+                    <tr>
+                        {% if p.productor_fk.username == user.username  %}
+
+                        <td>{{ p.id  }}</td>
+                        <td>{{ p.nombre_fruta  }}</td>
+                        <td>{{ p.kilos_fruta }} kilos</td>
+                        <td>${{ p.valor_producto  }}</td>
+                       
+                        
+                        <td>
+                            
+                            <a href="{%  url 'modify_post_product' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
+
+
+                            <a href="#" onclick="eliminarProducto({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+
+                            {% if p.estado_fk.desc_estado  == "Disponible" and p.usuario_fk.username != user.username %} <!-- PARA FK---->
+
+                                  <a href="{%  url 'create_sale' p.id %}" class="btn btn-info btn-sm ">Crear venta</a>
+                                  
+                            {% endif  %}
+
+                            
+                            
+
+                            {% if perms.cuenta.delete_producto  %}
+                            {% endif %}
+
+                            {% endif %}    
+                            
+                        </td>
+                    </tr>
+                {% endfor %}    
+                {% else %}
+                <h3>No hay registros</h3>
+                {% endif %}
+                </tbody>
+
+            </table>       
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

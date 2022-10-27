@@ -1,0 +1,56 @@
+
+
+
+
+        <center> <h2>Boleta </h2> </center>
+        
+
+         
+        {% if boletas  %}    
+        {% for p in boletas %}   
+       
+
+        {% load permission_tags %}
+        {% if p.id == boletas_id.id %}
+
+                <h2>-----------------------------------------------------------</h2>  
+                <h1>Información Transporte</h1>
+                <h3>Nombre transportista: {{ p.fk_venta.fk_subasta.fk_transportistaa_usuario  }}</h3>
+                <h3>Fecha subasta: {{ p.fk_venta.fk_subasta.fec_subasta  }}</h3>
+                <h3>Mi valor subastado: ${{ p.valor_transporte  }}</h3> 
+                <h2>-----------------------------------------------------------</h2> 
+                <h1>Información boleta </h1>
+                <h3>Codigo boleta: {{ p.id  }}</h1>             
+                <h3>Fecha: {{ p.fec_boleta  }}</h1>  
+                <h3>Codigo venta: {{ p.fk_venta  }}</h3>               
+                <h2>-----------------------------------------------------------</h2>     
+                
+                <h1>Información de envío </h1>    
+                <h3>País: {{ p.fk_venta.fk_subasta.pais.name  }}</h3> 
+                <h3>Ciudad: {{ p.fk_venta.fk_subasta.cuidad  }}</h3>   
+                <h3>Dirección: {{ p.fk_venta.fk_subasta.mi_direccion  }}</h3> 
+                <h2>-----------------------------------------------------------</h2> 
+                <h1>Información de los productos </h1>    
+                <h3>Producto 1: {{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio1  }} a ${{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto  }}</h2>    
+                <h3>Producto 2: {{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio2  }} a ${{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto  }}</h2>  
+                <h3>Producto 3: {{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio3  }} a ${{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto  }}</h2>      
+                 
+
+                <h2>-----------------------------------------------------------</h2>     
+                <h3>Mi pago: ${{ p.valor_transporte  }}</h3> 
+
+               
+                    
+            {% endif %}    
+           
+        {% endfor %}    
+        {% else %}
+        <h3>No hay registros</h3>
+        {% endif %}
+        
+        <center><h2>-------------------------- MAIPO GRANDE ---------------------------------</h2> </center>
+    </table>       
+       
+</form>
+</div>
+</div>

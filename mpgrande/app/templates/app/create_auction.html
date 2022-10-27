@@ -1,0 +1,34 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %} Crear subasta  {% endblock titulo %}
+
+{% block portada %} Crear subasta {% endblock portada %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+        <h2>Crear Producto 🍑</h2>
+        
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+
+                {{ from_solicitud.as_p }}
+
+                <input class="btn btn-default" type="submit" value="Crear producto">
+
+                <h2 class="reg-prod">Crear subasta s</h2>
+
+                <hr width="30%">
+            </div>
+
+           
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

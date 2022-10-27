@@ -1025,3 +1025,137 @@ def info_ticket(request,id):
     boletas_id = get_object_or_404(boleta, id=id) 
     boletas = boleta.objects.order_by('-id')
     return  render(request, 'app/info_ticket.html',{'boletas_id':boletas_id,'boletas':boletas}) 
+
+
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = producto.objects.all()
+    serializer_class = ProductoSerializars
+
+
+#pdf
+
+class pdf_converterViews(View):
+    def get(self,request,id):
+
+        boletas_id = get_object_or_404(boleta, id=id) #ID SUBASTA
+        
+        boletas = boleta.objects.all()
+
+
+        template = get_template('app/app.html')
+        context ={
+
+            'boletas':boletas,
+            'boletas_id':boletas_id,
+            'p.id':boletas_id,
+            
+            }
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="boleta_cliente.pdf"'
+
+        #crear pdf
+        pisa_status = pisa.CreatePDF(
+            html, dest=response)
+        #vali
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response
+
+
+class pdf_converterTransViews(View):
+    def get(self,request,id):
+
+        boletas_id = get_object_or_404(boleta, id=id) #ID SUBASTA
+        
+        boletas = boleta.objects.all()
+
+        template = get_template('app/pdf_template_trans.html')
+        context ={
+
+            'boletas':boletas,
+            'boletas_id':boletas_id,
+            'p.id':boletas_id,
+            
+            }
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="boleta_transportista.pdf"'
+
+        #crear pdf
+        pisa_status = pisa.CreatePDF(
+            html, dest=response)
+        #vali
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response     
+
+class pdf_converterProductorViews(View):
+    def get(self,request,id):
+
+        boletas_id = get_object_or_404(boleta, id=id) #ID SUBASTA
+        
+        boletas = boleta.objects.all()
+
+        template = get_template('app/pdf_template_producer.html')
+        context ={
+
+            'boletas':boletas,
+            'boletas_id':boletas_id,
+            'p.id':boletas_id,
+            
+            }
+        html = template.render(context)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="boleta_productor.pdf"'
+
+        #crear pdf
+        pisa_status = pisa.CreatePDF(
+            html, dest=response)
+        #vali
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response             
+
+@login_required
+def graphics(request):
+    boletas = boleta.objects.count()
+    total11 = 0
+    total12 = 0
+    year = datetime.now().year
+
+    #enero
+    for m in range(0,boletas):
+
+        data11 = [  ]    
+       
+        if  boleta.objects.filter(fec_boleta__month=11):
+            total11 = total11 +1
+
+        else:
+            total11 = 0
+    
+        data11.append((total11))
+       
+        data12 = [  ]    
+       
+        if  boleta.objects.filter(fec_boleta__day=12):
+            total12 = total12 +1
+
+        else:
+            tota2 = 0
+    
+        data12.append((total12))
+    
+    return  render(request, 'app/graphics.html',{'data11':data11, 'data12':data12} )
+
+
+    def graphics2(request):
+    boletas = boleta.objects.all()
+   
+       
+    return  render(request, 'app/graphics.html',{'boletas':boletas} ) 
+

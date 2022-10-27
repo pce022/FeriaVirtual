@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+
+
+{% load permission_tags %}
+
+
+
+    {% block titulo %} Terminar Subasta  {% endblock titulo %}
+
+
+
+
+    {% block portada %} Terminar Subasta {% endblock portada %}
+
+
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+
+        
+            <h2>Terminar subasta 🍑</h2>
+
+
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+               
+                {% csrf_token %}
+             
+
+
+                {% for p in subastas %} 
+
+                    {% if p.id == id_subastas.id %}
+                    
+                    <div>
+                        <h2>Detalles Subasta</h2>
+
+                        &nbsp;
+                        
+                        <h4>Precio escogido: </h4> ${{ p.mi_apuesta  }}
+                        <h4>Transportista: </h4> {{ p.fk_transportistaa_usuario.username  }}    
+                        <h4>Fecha: </h4> {{ p.fec_subasta  }}    
+                        <hr width="30%"> 
+                    </div>
+
+                    {% endif %}
+
+                {% endfor %} 
+
+                
+                {{ formulario.as_p }}
+                <input class="btn btn-default" type="submit" value="Terminar subasta">
+
+                <hr width="30%">
+            </div>
+
+           
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

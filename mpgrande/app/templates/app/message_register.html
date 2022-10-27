@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %} Crear producto  {% endblock titulo %}
+
+{% block portada %} Crear producto {% endblock portada %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
+        <h2> Solicitud de registro 🍑</h2>
+        
+        <hr width="30%">
+        <form method="POST">
+            <div class="form-group">
+            
+                {% csrf_token %} <!--validar -->
+
+                {{ formulario.as_p }}
+
+
+                
+
+
+
+                <input class="btn btn-default" type="submit" value="Enviar ">
+
+              
+            </div>
+
+           
+               
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

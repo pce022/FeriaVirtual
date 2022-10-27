@@ -1,0 +1,60 @@
+
+
+
+
+        <center> <h2>Boleta </h2> </center>
+        
+
+         
+        {% if boletas  %}    
+        {% for p in boletas %}   
+       
+
+        {% load permission_tags %}
+        {% if p.id == boletas_id.id %}
+
+
+
+                <h2>-----------------------------------------------------------</h2>  
+                <h1>Información Productor</h1>
+                <h2>Productor: {{ p.fk_venta.fk_subasta.fk_solicitud.usuario_fk  }}  </h2>
+                <h2>Fecha :{{ p.fec_boleta  }} </h2>
+                <h2>-----------------------------------------------------------</h2>   
+
+                
+                <h1>Información boleta </h1>
+                <h3>Código boleta: {{ p.id  }}</h1>             
+                <h3>Fecha: {{ p.fec_boleta  }}</h1>            
+                     
+                <h3>Código venta: {{ p.fk_venta  }}</h3>    
+                <h2>-----------------------------------------------------------</h2>     
+                
+                
+                
+                   
+                <h2>Productos vendidos</h3>
+                <h3>Producto 1: {{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio1  }} a ${{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto  }}</h2>    
+                <h3>Producto 2: {{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio2  }} a ${{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto  }}</h2>  
+                <h3>Producto 3: {{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio3  }} a ${{ p.fk_venta.fk_subasta.fk_solicitud.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto  }}</h2>      
+                <h3>Total: ${{ p.valor_productos  }}</h2>   
+                <h2>-----------------------------------------------------------</h2>   
+                
+                    
+
+
+                <h3>Ganancia: ${{ p.valor_productos  }}</h3>       
+               
+                    
+            {% endif %}    
+           
+        {% endfor %}    
+        {% else %}
+        <h3>No hay registros</h3>
+        {% endif %}
+        
+        <center><h2>-------------------------- MAIPO GRANDE ---------------------------------</h2> </center>
+    </table>       
+       
+</form>
+</div>
+</div>
