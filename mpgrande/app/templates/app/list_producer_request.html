@@ -18,7 +18,7 @@
 
         }).then(function(result) {
             if (result.isConfirmed) {
-            window.location.href = "/eliminar_modificar_listar_productor_solicitud/"+id+"/"
+            window.location.href = "/delete_modify_list_producer_request/"+id+"/"
         }
         })
 
@@ -100,8 +100,8 @@
                                 {% if  p.fk_estado_productor_crear_solicitud.estado_venta  == "Pendiente"   %}
 
                                     {% if  user|has_role:'externo' or user|has_role:'interno'   %}
-                                    <a href="{%  url 'aprobar_solicitud_cliente_productor' p.id %}" class="btn btn-info btn-sm ">Aprobar</a>
-                                    <a href="{%  url 'rechazar_solicitud_cliente_productor' p.id %}" class="btn btn-info btn-sm ">Rechazar</a>
+                                    <a href="{%  url 'approve_producer_client_request' p.id %}" class="btn btn-info btn-sm ">Aprobar</a>
+                                    <a href="{%  url 'reject_producer_client_request' p.id %}" class="btn btn-info btn-sm ">Rechazar</a>
                                     {% endif %}
 
                                 {% endif %}
@@ -109,14 +109,14 @@
 
                                 {% if p.fk_solicitud.usuario_fk.username  == user.username and  p.fk_estado_productor_crear_solicitud.estado_venta  == "Aprobado"  %}
                                 <a href="#" onclick="eliminar({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
-                                <a href="{%  url 'iniciar_subasta_participar' p.id %}" class="btn btn-info btn-sm ">Crear subasta</a>
+                                <a href="{%  url 'start_auction_participate' p.id %}" class="btn btn-info btn-sm ">Crear subasta</a>
                                 {% endif %}
 
                                 
                             
                                 {% if   p.fk_estado_productor_crear_solicitud.estado_venta  == "Subasta en curso"  %}
 
-                                <a href="{%  url 'listar_subasta' p.id p.fk_solicitud.usuario_fk p.fk_solicitud %}" class="btn btn-info btn-sm ">Ver subasta</a>
+                                <a href="{%  url 'list_auction' p.id p.fk_solicitud.usuario_fk p.fk_solicitud %}" class="btn btn-info btn-sm ">Ver subasta</a>
                                 
                                 {% endif %}
 
