@@ -454,7 +454,7 @@ def create_request(request):
     solicitudes = solicitud.objects.order_by('-id')
     if request.method == 'POST':
 
-        from_solicitud = solicitud_from(request.POST, request.FILES)
+        from_solicitud = Request_from(request.POST, request.FILES)
         if from_solicitud.is_valid():
             estado = "Pendiente"
             instance = from_solicitud.save(commit=False)
@@ -482,7 +482,7 @@ def producer_create_request(request,id):
     productos = producto.objects.order_by('-id')
     if request.method == 'POST':
 
-        from_solicitud = productor_crear_solicitudFrom(request.POST, request.FILES)
+        from_solicitud = Producer_create_requestFrom(request.POST, request.FILES)
         if from_solicitud.is_valid():
             estado = "Pendiente"
             instance = from_solicitud.save(commit=False)
@@ -510,7 +510,7 @@ def producer_create_request(request,id):
 
 
     else:
-        from_solicitud = productor_crear_solicitudFrom
+        from_solicitud = Producer_create_requestFrom
         
     return  render(request, 'app/producer_create_request.html',{'from_solicitud':from_solicitud, 'solicitudes':solicitudes, 'productos':productos , 'id_solicitud':id_solicitud} )
 
@@ -521,11 +521,11 @@ def modify_request(request,id):
     Solicitud = get_object_or_404(solicitud, id=id)
     
     data = {
-        'from_solicitud':solicitud_from(instance=Solicitud)
+        'from_solicitud':Request_from(instance=Solicitud)
     }
 
     if request.method == 'POST':
-        formulario = solicitud_from(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario = Request_from(data=request.POST, instance=Solicitud, files=request.FILES)
         if formulario.is_valid():
             
             formulario.save()
@@ -545,11 +545,11 @@ def modify_request_status(request,id):
     Solicitud = get_object_or_404(solicitud, id=id)
     
     data = {
-        'from_solicitud':solicitud_aprobar_from(instance=Solicitud)
+        'from_solicitud':Request_approve_from(instance=Solicitud)
     }
 
     if request.method == 'POST':
-        formulario = solicitud_aprobar_from(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario = Request_approve_from(data=request.POST, instance=Solicitud, files=request.FILES)
         if formulario.is_valid():
             
             formulario.save()
@@ -604,11 +604,11 @@ def modify_list_producer_request(request,id):
     Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
     
     data = {
-        'from_solicitud':productor_crear_solicitudFrom(instance=Solicitud)
+        'from_solicitud':Producer_create_requestFrom(instance=Solicitud)
     }
 
     if request.method == 'POST':
-        formulario = productor_crear_solicitudFrom(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario = Producer_create_requestFrom(data=request.POST, instance=Solicitud, files=request.FILES)
         if formulario.is_valid():
             
             formulario.save()
@@ -636,12 +636,12 @@ def approve_producer_client_request(request,id):
     id_Solicitud = productor_crear_solicitud.objects.order_by('id')
     
     data = {
-        'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud)
+        'from_solicitud':Approve_request_customer_producerForm(instance=Solicitud)
     }
 
     if request.method == 'POST':
 
-        formulario = aprobar_solicitud_cliente_productorForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario = Approve_request_customer_producerForm(data=request.POST, instance=Solicitud, files=request.FILES)
 
         if formulario.is_valid():
             instance = formulario.save(commit=False)
@@ -661,7 +661,7 @@ def approve_producer_client_request(request,id):
             messages.success(request, "Aprobado correctamente")
             return redirect('list_producer_request')
 
-    return render(request, 'app/info_approve_request.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id })  
+    return render(request, 'app/info_approve_request.html', {'from_solicitud':Approve_request_customer_producerForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id })  
 
 
 @has_role_decorator('externo')
@@ -673,11 +673,11 @@ def reject_producer_client_request(request,id):
     id_Solicitud = productor_crear_solicitud.objects.order_by('id')
     
     data = {
-        'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud)
+        'from_solicitud':Approve_request_customer_producerForm(instance=Solicitud)
     }
 
     if request.method == 'POST':
-        formulario = aprobar_solicitud_cliente_productorForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario = Approve_request_customer_producerForm(data=request.POST, instance=Solicitud, files=request.FILES)
         if formulario.is_valid():
             instance = formulario.save(commit=False)
 
@@ -695,7 +695,7 @@ def reject_producer_client_request(request,id):
             return redirect('list_producer_request')
 
 
-    return render(request, 'app/info_approve_request.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id }) 
+    return render(request, 'app/info_approve_request.html', {'from_solicitud':Approve_request_customer_producerForm(instance=Solicitud,),'id_Solicitud':id_Solicitud,'Solicitud_id':Solicitud_id }) 
 
 
 @login_required 
@@ -704,11 +704,11 @@ def participate_auction(request,id):
     Solicitud = get_object_or_404(productor_crear_solicitud, id=id)
     
     data = {
-        'from_solicitud':subastaForm(instance=Solicitud)
+        'from_solicitud':AuctionForm(instance=Solicitud)
     }
 
     if request.method == 'POST':
-        formulario = subastaForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario = AuctionForm(data=request.POST, instance=Solicitud, files=request.FILES)
         if formulario.is_valid():
             estado = "Participando"
             instance = formulario.save(commit=False)
@@ -735,11 +735,11 @@ def start_auction_participate(request,id):
     solicitudes = productor_crear_solicitud.objects.order_by('-id')
    
     data = {
-        'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud)
+        'formulario':Approve_request_customer_producerForm2(instance=id_solicitud)
     }
 
     if request.method == 'POST':
-        formulario = IniciarsubastaForm(request.POST, request.FILES)
+        formulario = Start_auctionForm(request.POST, request.FILES)
         if formulario.is_valid():
             instance = formulario.save(commit=False)
             estado = "En curso"
@@ -750,7 +750,7 @@ def start_auction_participate(request,id):
             instance.mi_apuesta = 1
             instance.save() 
 
-            formulario2 = aprobar_solicitud_cliente_productorForm2(data=request.POST, instance=solicitud, files=request.FILES)
+            formulario2 = Approve_request_customer_producerForm2(data=request.POST, instance=solicitud, files=request.FILES)
             
             if formulario2.is_valid():
                 instance = formulario2.save(commit=False)
@@ -764,7 +764,7 @@ def start_auction_participate(request,id):
             return redirect('list_producer_request')
 
     else:
-        formulario = IniciarsubastaForm
+        formulario = Start_auctionForm
     return render(request, 'app/create_start_auction.html',{'solicitudes':solicitudes,'id_solicitud':id_solicitud , 'formulario3':formulario,'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud),'subastas':subastas } )  
 
 
@@ -775,7 +775,7 @@ def participate_auction_carrier(request,id,id_subasta) :
     subasta_id = get_object_or_404(subasta, id=id_subasta)
    
     if request.method == 'POST':
-        formulario = participarSubastaForm(request.POST, request.FILES)
+        formulario = Auction_ParticipationForm(request.POST, request.FILES)
         if formulario.is_valid():
             instance = formulario.save(commit=False)
             estado = "Participando"
@@ -804,7 +804,7 @@ def participate_auction_carrier(request,id,id_subasta) :
             return redirect('list_producer_request')
 
     else:
-        formulario = participarSubastaForm
+        formulario = Auction_ParticipationForm
     return render(request, 'app/create_start_auction.html',{'id_solicitud':id_solicitud , 'formulario':formulario} )
     
 
@@ -818,7 +818,7 @@ def end_auction(request, id,id2):
     subastas = subasta.objects.order_by('id')
 
     data = {
-        'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud)
+        'formulario':Approve_request_customer_producerForm2(instance=id_solicitud)
     } 
 
     
@@ -834,7 +834,7 @@ def end_auction(request, id,id2):
             instance.save() 
             
 
-            formulario2 = aprobar_solicitud_cliente_productorForm2(data=request.POST, instance=solicitud, files=request.FILES)
+            formulario2 = Approve_request_customer_producerForm2(data=request.POST, instance=solicitud, files=request.FILES)
             
             if formulario2.is_valid():
                 instance = formulario2.save(commit=False)
@@ -869,8 +869,8 @@ def end_auction(request, id,id2):
             return redirect('list_producer_request')
 
     else:
-        formulario = participarSubastaForm
-    return render(request, 'app./create_end_auction.html',{'id_solicitud':id_subastas , 'formulario':formulario, 'id_subastas':id_subastas,'subastas':subastas,'formulario':aprobar_solicitud_cliente_productorForm2(instance=id_solicitud)  } )
+        formulario = Auction_ParticipationForm
+    return render(request, 'app./create_end_auction.html',{'id_solicitud':id_subastas , 'formulario':formulario, 'id_subastas':id_subastas,'subastas':subastas,'formulario':Approve_request_customer_producerForm2(instance=id_solicitud)  } )
 
 @login_required 
 def list_auction(request,id,nombreCliente,id_solicitud):
@@ -907,11 +907,11 @@ def create_ticket(request,id):
     ventas = venta.objects.order_by('-id')
 
     data = {
-        'formulario':aprobar_solicitud_cliente_productorForm2(instance=venta_id)
+        'formulario':Approve_request_customer_producerForm2(instance=venta_id)
     } 
 
     if request.method == 'POST':
-        formulario = boletaForm(request.POST, request.FILES)
+        formulario = ticketForm(request.POST, request.FILES)
         if formulario.is_valid():
 
             instance = formulario.save(commit=False)
@@ -922,7 +922,7 @@ def create_ticket(request,id):
             instance.valor_total = venta_id.fk_subasta.mi_apuesta +   venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto + venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto + venta_id.fk_subasta.fk_solicitud.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto
             instance.save() 
 
-            formulario2 = venta_terminarForm(data=request.POST, instance=solicitud, files=request.FILES)
+            formulario2 = Sale_endForm(data=request.POST, instance=solicitud, files=request.FILES)
             if formulario2.is_valid():
                 instance = formulario2.save(commit=False)
                 estado = "Venta terminada"
@@ -981,18 +981,18 @@ def list_ticket_client(request):
 @has_role_decorator('externo')
 def confirm_delivery(request,id):
     Solicitud = get_object_or_404(venta, id=id)
-    formulario = confirmar_entrega_VentaForm
-    formulario2 = confirmar_entregaForm
+    formulario = Confirm_delivery_saleForm
+    formulario2 = confirm_deliveryForm
 
     data = {
-        'from_solicitud':confirmar_entregaForm(instance=Solicitud)
+        'from_solicitud':confirm_deliveryForm(instance=Solicitud)
     }
 
 
     if request.method == 'POST':
 
-        formulario = confirmar_entrega_VentaForm(data=request.POST, instance=Solicitud, files=request.FILES)
-        formulario2 = confirmar_entregaForm(request.POST, request.FILES)
+        formulario = Confirm_delivery_saleForm(data=request.POST, instance=Solicitud, files=request.FILES)
+        formulario2 = confirm_deliveryForm(request.POST, request.FILES)
 
         if formulario.is_valid() :
             instance = formulario.save(commit=False)
@@ -1016,7 +1016,7 @@ def confirm_delivery(request,id):
     
       
 
-    return render(request, 'app/confirm_order.html', {'from_solicitud':aprobar_solicitud_cliente_productorForm(instance=Solicitud,), 'formulario2':formulario2, 'formulario':formulario } )  
+    return render(request, 'app/confirm_order.html', {'from_solicitud':Approve_request_customer_producerForm(instance=Solicitud,), 'formulario2':formulario2, 'formulario':formulario } )  
 
 
 
@@ -1153,9 +1153,26 @@ def graphics(request):
     return  render(request, 'app/graphics.html',{'data11':data11, 'data12':data12} )
 
 
-    def graphics2(request):
+def graphics2(request):
     boletas = boleta.objects.all()
    
        
     return  render(request, 'app/graphics.html',{'boletas':boletas} ) 
 
+@login_required
+class graphics_dataViews(TemplateView):
+    template_name = 'grafico.html'
+   
+    def get_grafico(self):
+        data = [ ]
+        year = datetime.now().year
+        for m in range(1,13):
+            total = boleta.objects.filter(fec_boleta__year=year, date__joined__month=m)
+            data.append(float(total))
+        return data     
+    
+    def get_context_data(self, ):
+        context = super().get_context_data()
+        context['panel'] = 'Panel de administrador'
+        context['grafico'] = self.get_grafico()
+        return context
