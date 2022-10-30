@@ -14,7 +14,7 @@ class CustomUserCreationFrom(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
     pass
 
-class StaffFrom(forms.ModelForm):
+class StaffFrom(forms.ModelForm): #PersonalFrom
     class Meta:
         model = Personal 
         fields = (
@@ -28,7 +28,7 @@ class StaffFrom(forms.ModelForm):
             'tipo_personal_fk',
         )
     
-class UserFrom(forms.ModelForm):
+class UserFrom(forms.ModelForm): #UsuariolFrom
     class Meta:
         model = Usuario 
         fields = (
@@ -49,7 +49,7 @@ class UserFrom(forms.ModelForm):
             'personal_id_fk': 'Rut del personal',
         }        
 
-class ProductFrom(forms.ModelForm):
+class ProductFrom(forms.ModelForm): #PorductoFrom
     class Meta:
         model = producto
         fields = (
@@ -58,7 +58,7 @@ class ProductFrom(forms.ModelForm):
             'estado_fk',
         )
 
-class Post_ProductFrom(forms.ModelForm):
+class Post_ProductFrom(forms.ModelForm): #Post_PorductoFrom
     class Meta:
         model = desc_fruta
         fields = (
@@ -68,20 +68,20 @@ class Post_ProductFrom(forms.ModelForm):
             'valor_producto',
         )
 
-class Post_product_saleFrom(forms.ModelForm):
+class Post_product_saleFrom(forms.ModelForm): #Porducto_dps_ventaFrom
     class Meta:
         model = producto
         fields = (
             
         )
 
-class SaleFrom(forms.ModelForm):
+class SaleFrom(forms.ModelForm): #ventaFrom
     class Meta:
         model = venta
         fields = (
         )
 
-class Sale_modifyFrom(forms.ModelForm):
+class Sale_modifyFrom(forms.ModelForm): #ventaModifcarFrom
     class Meta:
         model = venta
         fields = (
@@ -90,7 +90,7 @@ class Sale_modifyFrom(forms.ModelForm):
 
 
 
-class Request_from(forms.ModelForm):
+class Request_from(forms.ModelForm): #solicitud_from
 
     class Meta:
         model = solicitud
@@ -103,7 +103,7 @@ class Request_from(forms.ModelForm):
             'kilos_fruta_espacio3',
         )     
 
-class Request_approve_from(forms.ModelForm):
+class Request_approve_from(forms.ModelForm): #solicitud_aprobar_from
     class Meta:
         model = solicitud
         fields = (
@@ -111,7 +111,7 @@ class Request_approve_from(forms.ModelForm):
            'fk_estado_solicitud',
         )        
 
-class Producer_create_requestFrom(forms.ModelForm):
+class Producer_create_requestFrom(forms.ModelForm): #productor_crear_solicitudFrom
     class Meta:
         model = productor_crear_solicitud
         fields = (
@@ -121,22 +121,22 @@ class Producer_create_requestFrom(forms.ModelForm):
             'fk_frutas_espacio3',
         )  
 
-class Approve_request_customer_producerForm(forms.ModelForm):
+class Approve_request_customer_producerForm(forms.ModelForm): #aprobar_solicitud_cliente_productorForm
     class Meta:
         model = productor_crear_solicitud
         fields = (  )            
               
-class Approve_request_customer_producerForm2(forms.ModelForm):
+class Approve_request_customer_producerForm2(forms.ModelForm): #aprobar_solicitud_cliente_productorForm2
     class Meta:
         model = productor_crear_solicitud
         fields = (  )   
 
-class AuctionForm(forms.ModelForm):
+class AuctionForm(forms.ModelForm): #subastaForm
     class Meta:
         model = subasta
         fields = ('mi_apuesta',)  
 
-class Auction_ParticipationForm(forms.ModelForm):     
+class Auction_ParticipationForm(forms.ModelForm): #participarSubastaForm
 
     mi_apuesta = forms.IntegerField(min_value = 1, max_value= 10000000000)
 
@@ -144,7 +144,7 @@ class Auction_ParticipationForm(forms.ModelForm):
         model = subasta
         fields = ('mi_apuesta',)                          
 
-class Start_auctionForm(forms.ModelForm):
+class Start_auctionForm(forms.ModelForm): #IniciarsubastaForm
     class Meta:
         model = subasta
         fields = (
@@ -153,37 +153,37 @@ class Start_auctionForm(forms.ModelForm):
             'mi_direccion',
         )             
 
-class End_auctionForm(forms.ModelForm):
+class End_auctionForm(forms.ModelForm): #TerminarsubastaForm
 
     class Meta:
         model = subasta
         fields = (  )        
 
-class ticketForm(forms.ModelForm):
+class ticketForm(forms.ModelForm): #boletaForm
 
     class Meta:
         model = boleta
         fields = (  )          
 
-class Sale_endForm(forms.ModelForm):
+class Sale_endForm(forms.ModelForm): #venta_terminarForm
 
     class Meta:
         model = venta
         fields = (  )        
 
-class confirm_deliveryForm(forms.ModelForm):
+class confirm_deliveryForm(forms.ModelForm): #confirmar_entregaForm
     class Meta:
         model = mensaje_boleta
         fields = (
             'mensaje',  
         )         
 
-class Confirm_delivery_saleForm(forms.ModelForm):
+class Confirm_delivery_saleForm(forms.ModelForm): #confirmar_entrega_VentaForm
     class Meta:
         model = venta
         fields = (  )            
 
-class message_register_t(forms.ModelForm):
+class message_register_t(forms.ModelForm): #mensaje_registro_home2
 
     class Meta:
         model = mensaje_registro
