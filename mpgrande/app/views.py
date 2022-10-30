@@ -1126,6 +1126,8 @@ def graphics(request):
     total11 = 0
     total12 = 0
     year = datetime.now().year
+    data11 = [  ]
+    data12 = [  ]
 
     #enero
     for m in range(0,boletas):
@@ -1159,6 +1161,7 @@ def graphics2(request):
        
     return  render(request, 'app/graphics.html',{'boletas':boletas} ) 
 
+
 @login_required
 class grafico_dataViews(TemplateView):
     template_name = 'grafico.html'
@@ -1175,5 +1178,4 @@ class grafico_dataViews(TemplateView):
         context = super().get_context_data()
         context['panel'] = 'Panel de administrador'
         context['grafico'] = self.get_grafico()
-        return context    
-
+        return context
