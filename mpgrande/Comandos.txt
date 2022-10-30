@@ -26,9 +26,9 @@ django-admin startproject "NOMBRE DEL PROYECTO" > así se crea la carpeta de dja
 python manage.py startapp "nombre de la aplicacion por defecto app" > aqui se crea el modulo de la aplicacion (fijarse estar dentro de la carpeta)
 
 
-python manage.py makemigrations >
-python manage.py migrate >
-python manage.py createsuperuser > Duoc1 contraseña duocduoc
+python manage.py makemigrations 
+python manage.py migrate 
+python manage.py createsuperuser
 python manage.py runserver
 
 
