@@ -66,37 +66,37 @@
             {% load permission_tags %}
 
             {% if user|has_role:'moderador'  %}
-            <a href="{% url 'crear_personal' %}"> Personal</a>
-            <a href="{% url 'listar_solicitud' %}"> Solicitudes</a>
-            <a href="{% url 'registro' %}"> Registrar usuario</a>
+            <a href="{% url 'create_staff' %}"> Personal</a>
+            <a href="{% url 'list_request' %}"> Solicitudes</a>
+            <a href="{% url 'register' %}"> Registrar usuario</a>
             {% endif %}
 
             {% if user|has_role:'externo' or user|has_role:'interno'  %}
-            <a href="{% url 'crear_solicitud' %}"> Solicitud</a>
-            <a href="{% url 'listar_productor_solicitud' %}"> Solicitudes Lotes y subastas </a>
-            <a href="{% url 'listar_ventas' %}"> Mis ventas </a>
-            <a href="{% url 'listar_boleta' %}"> Mis boletas </a>
+            <a href="{% url 'create_request' %}"> Solicitud</a>
+            <a href="{% url 'list_producer_request' %}"> Solicitudes Lotes y subastas </a>
+            <a href="{% url 'list_sales' %}"> Mis ventas </a>
+            <a href="{% url 'list_ticket' %}"> Mis boletas </a>
             {% endif %}
 
             {% if user|has_role:'productor'   %}
-            <a href="{% url 'crear_producto' %}"> Mis Productos</a> 
-            <a href="{% url 'post_crear_producto' %}"> Inventario</a> 
-            <a href="{% url 'listar_solicitud' %}"> Solicitudes de creación de lote </a> 
-            <a href="{% url 'listar_productor_solicitud' %}"> Lotes creados</a>  
-            <a href="{% url 'listar_boleta' %}"> Mis boletas </a> 
+            <a href="{% url 'create_product' %}"> Mis Productos</a> 
+            <a href="{% url 'post_create_product' %}"> Inventario</a> 
+            <a href="{% url 'list_request' %}"> Solicitudes de creación de lote </a> 
+            <a href="{% url 'list_producer_request' %}"> Lotes creados</a>  
+            <a href="{% url 'list_ticket' %}"> Mis boletas </a> 
             {% endif %}
 
             {% if user|has_role:'transportista'  %}     
-            <a href="{% url 'listar_productor_solicitud' %}"> Subastas disponibles </a>  
-            <a href="{% url 'listar_boleta' %}"> Mis boletas </a> 
+            <a href="{% url 'list_producer_request' %}"> Subastas disponibles </a>  
+            <a href="{% url 'list_ticket' %}"> Mis boletas </a> 
             {% endif %}
 
             {% if user|has_role:'consultor'  %}
-            <a href="{% url 'listar_boletaProductor' %}">  Boletas </a>
+            <a href="{% url 'list_ticker_producer' %}">  Boletas </a>
             {% endif %}
 
             {% if perms.cuenta.add_personal %}
-            <a href="{% url 'crear_personal' %}">Crear personal</a>
+            <a href="{% url 'create_staff' %}">Crear personal</a>
             {% endif %}
 
             
