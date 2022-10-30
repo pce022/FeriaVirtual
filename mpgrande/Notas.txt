@@ -1,0 +1,10 @@
+Cambiar dentro del editor todas las etiquetas llamadas
+
+as_p → as_bootstrap
+
+
+Cambiar dentro del editor el nombre 
+
+moderador → administrador
+
+
