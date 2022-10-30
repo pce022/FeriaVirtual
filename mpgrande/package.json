@@ -1,0 +1,25 @@
+{
+  "name": "webapp-portafolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass": "node_modules/.bin/sass --watch --no-source-map static:static"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emeitiai/webapp-portafolio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emeitiai/webapp-portafolio/issues"
+  },
+  "homepage": "https://github.com/emeitiai/webapp-portafolio#readme",
+  "devDependencies": {
+    "sass": "^1.43.4"
+  },
+  "dependencies": {
+    "node-sass": "^6.0.1"
+  }
+}
