@@ -1,12 +1,10 @@
-{% extends 'base/sidebar.html' %}
+{% extends 'base/base.html' %}
 
-{%load static%} 
+{% block titulo %} Crear subasta  {% endblock titulo %}
 
-{% block content %}
+{% block portada %} Crear subasta {% endblock portada %}
 
-{%block css%} 
-<link rel="stylesheet" href="{% static '/css/base.css'%}">
-{%endblock%}  
+{% block content %} 
 
 <div class="container">
     <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
