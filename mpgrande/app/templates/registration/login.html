@@ -2,7 +2,7 @@
 
 {%load static%} 
 
-{% block contenido %}
+{% block content %}
 
 
 {%block css%} 
@@ -14,7 +14,7 @@
         <form method="post" class=" formulario contenedor input-contenedor">
             <h1>Bienvenid@,<br> inicia tu sesión.</h1>
             {% csrf_token %}
-            {{form.as_bootstrap | crispy}}
+            {{form| crispy}}
             <input type="submit" value="Ingresar" class="button"> 
             <p>¿No tienes una cuenta? <a class="link" href="{% url 'register' %}">Registrate </a></p> 
             <a class="link" href="{% url 'home' %}">Ir al inicio </a></p> 
