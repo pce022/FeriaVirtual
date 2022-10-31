@@ -16,89 +16,41 @@
 
 {% block content %} 
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-
-        
-        {% if user|has_role:'productor'   %}
-            <h2>Participar subasta 🍑</h2>
+<body>
+    {% if user|has_role:'productor'   %}
+            <h2>Participar subasta</h2>
         {% endif %}
 
         {% if user|has_role:'externo' or user|has_role:'interno'  %}
-        <hr width="30%">
-        <h2>Crear subasta 🍑</h2>
-        <hr width="30%">
+        <h2>Crear subasta</h2>
         {% endif %}
-
-        
-        <form method="POST">
-            <div class="form-group">
-            
-              
-               
-               
-
-
+        <form method="POST" class="container2">
+            <div class="form1">
                 {% for p in solicitudes %} 
-
                     {% if p.id == id_solicitud.id %}
-
                     <div>
                         <h3>Fruta 1:  </h1> {{ p.fk_frutas_espacio1  }}  a ${{ p.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto }}
                         <h3>Fruta 2:  </h1> {{ p.fk_frutas_espacio2  }}  a ${{ p.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto }}
                         <h3>Fruta 3:  </h1> {{ p.fk_frutas_espacio3  }}  a ${{ p.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto }} 
                         <h3>Productor:  </h1> {{ p.usuario_fk }}     
-
-
                     </div>
-
                     {% endif %}
-
                 {% endfor %} 
-               
-
-                
-            
                     {% if user|has_role:'productor'   %}
-
-                         <input class="btn btn-default" type="submit" value="Participar">
-
+                         <input class="button" type="submit" value="Participar">
                     {% endif %}
-                
-
                     {% if user|has_role:'externo' or user|has_role:'interno'  %}
-
-                    <hr width="30%">
                     <h3>Datos de envío</h2>    
-                    <hr width="30%">     
-
                     {% csrf_token %}
-                    {{ formulario3.as_bootstrap }}
-
-                    <input class="btn btn-default" type="submit" value="Crear subasta">
-
-                    {% endif %}
-                
-
+                    {{ formulario3}}
+                    <input class="button" type="submit" value="Crear subasta">
+                    {% endif %}                
                     {% if user|has_role:'transportista'   %}
-
                     {% csrf_token %}
-                    {{ formulario.as_bootstrap }}
-
-
-
-                    <input class="btn btn-default" type="submit" value="Subastar valor">
-
+                    {{ formulario}}
+                    <input class="button" type="submit" value="Subastar valor">
                     {% endif %}
-
-
-                <hr width="30%">
-            </div>
-
-           
-               
+            </div> 
         </form>
-    </div>
-</div>
-
+</body>
 {% endblock content %}

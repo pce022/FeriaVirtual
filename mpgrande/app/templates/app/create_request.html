@@ -4,40 +4,19 @@
 
 {% block content %} 
 {% load permission_tags %}
-<div class="container">
-    <div class="col-md-10 col-md-offset-1 form-box">
-
-
-
-        
-
-
-        {% if user|has_role:'externo' or user|has_role:'interno'  %}
-
-       <h2>Crear solicitud 👥</h2> 
-                        
+<body>
+    {% if user|has_role:'externo' or user|has_role:'interno'  %}
+        <h2>Crear solicitud 👥</h2>         
         {% endif %}
-
         {% if  user|has_role:'productor' %} 
-
-            <h2>Crear lote 👥</h2>
-                        
+        <h2>Crear lote 👥</h2>           
         {% endif %}
-
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
+    
+        <form method="POST" class="container2">
+            <div class="form1">
                 {% csrf_token %} <!--validar -->
-                {{ from_solicitud.as_bootstrap }}
-
-                <input class="btn btn-default" type="submit" value="Listo">
-
-                
-               
-
-                <hr width="30%"> 
-
+                {{ from_solicitud}}
+                <input class="btn btn-default" type="submit" value="Listo"> 
                 <script>
                     function eliminarSolicitud(id){
                         Swal.fire({
@@ -53,83 +32,60 @@
                 
                         }).then(function(result) {
                             if (result.isConfirmed) {
-                            window.location.href = "/delete_request/"+id+"/"
-                        }
-                        })
-                
-                    }
+                            window.location.href = "/delete_request/"+id+"/"}})}
                 
                 </script>
                 
                 <h2>Lista de solicitudes</h2>
-                        <hr width="50%">
-                        <form method="POST">
-                            <div class="form-group">
-                        
-                            <table class="table table-bordered">
-                
-                               
-                
-                                <tbody>
+                <form method="POST"class="container2" >
+                    <div class="form1">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Usuario</th>
+                                    <th>Estado</th>
+                                    <th>Fruta espacio 1</th>
+                                    <th>Fruta espacio 2</th>
+                                    <th>Fruta espacio 3</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            {% if solicitudes  %}    
+                            {% for p in solicitudes %}  
+                                {% if p.usuario_fk.username == user.username %} 
                                     <tr>
-                                        <th>id</th>
-                                        <th>Usuario</th>
-                                        <th>Estado</th>
-                                        <th>Fruta espacio 1</th>
-                                        <th>Fruta espacio 2</th>
-                                        <th>Fruta espacio 3</th>
-                                        <th>Opciones</th>
-                                        
+                                        <td> {{ p.id }} </td>
+                                        <td>{{ p.usuario_fk  }}</td>
+                                        <td>{{ p.fk_estado_solicitud  }} </td>
+                                        <td>{{ p.nombre_fruta_espacio1  }} {{ p.kilos_fruta_espacio1 }} Kilos </td>
+                                        <td>{{ p.nombre_fruta_espacio2  }} {{ p.kilos_fruta_espacio2 }} Kilos </td>
+                                        <td>{{ p.nombre_fruta_espacio3  }} {{ p.kilos_fruta_espacio3 }} Kilos </td>
+                                        <td>
+                                            {% load permission_tags %}
+                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente" and p.usuario_fk.username == user.username  or  user|has_role:'moderador'  %}
+                                            <a href="{%  url 'modify_request' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
+                                            {% endif %}
+                                            <a href="#" onclick="eliminarSolicitud({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+                                            {% if  user|has_role:'administrador'  %}
+                                            <a href="{%  url 'modify_status_request' p.id %}" class="btn btn-info btn-sm ">Modificar Estado</a>
+                                            {% endif %}
+                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Aprobado" and user|has_role:'moderador'  %}
+                                            <a href="{%  url 'producer_create_request' p.id %}" class="btn btn-info btn-sm ">Crear lote</a>
+                                            {% endif %}
+                                        </td>
                                     </tr>
-                                
-                                
-                                {% if solicitudes  %}    
-                                {% for p in solicitudes %}  
-                                    {% if p.usuario_fk.username == user.username %} 
-                                        <tr>
-                                            <td> {{ p.id }} </td>
-                                            <td>{{ p.usuario_fk  }}</td>
-                                            <td>{{ p.fk_estado_solicitud  }} </td>
-                                        
-                                            <td>{{ p.nombre_fruta_espacio1  }} {{ p.kilos_fruta_espacio1 }} Kilos </td>
-                                            <td>{{ p.nombre_fruta_espacio2  }} {{ p.kilos_fruta_espacio2 }} Kilos </td>
-                                            <td>{{ p.nombre_fruta_espacio3  }} {{ p.kilos_fruta_espacio3 }} Kilos </td>
-                                            <td>
-                                                {% load permission_tags %}
-                                                {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente" and p.usuario_fk.username == user.username  or  user|has_role:'moderador'  %}
-                                                <a href="{%  url 'modify_request' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
-                                                {% endif %}
-
-                                                <a href="#" onclick="eliminarSolicitud({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
-                                                
-                                                
-                                                {% if  user|has_role:'administrador'  %}
-        
-                                                <a href="{%  url 'modify_status_request' p.id %}" class="btn btn-info btn-sm ">Modificar Estado</a>
-                                                {% endif %}
-
-                                                {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Aprobado" and user|has_role:'moderador'  %}
-                                                <a href="{%  url 'producer_create_request' p.id %}" class="btn btn-info btn-sm ">Crear lote</a>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}     
-                                {% else %}
-                                <h3>No hay registros</h3>
                                 {% endif %}
-                                </tbody>
-                
-                            </table> 
-                       
-                                
-                    
-                
-
+                            {% endfor %}     
+                            {% else %}
+                            <h3>No hay registros</h3>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </form>        
 
             </div>
         </form>
-    </div>
-</div>
+</body>
 
 {% endblock content %}

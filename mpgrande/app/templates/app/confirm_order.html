@@ -8,28 +8,16 @@
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Mis ventas 🍑</h2>
+<body>
+    <h2>Mis ventas </h2>
+    <form method="POST" class="container2">
+        <div class="form1">
         
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-                {% csrf_token %}
-                {{ formulario2.as_bootstrap }}
-
-
-                <input class="btn btn-default" type="submit" value="Confirmar entrega">
-            </div>
-
-           
-
-
-           
-            
-        </form>
-    </div>
-</div>
+            {% csrf_token %}
+            {{ formulario2 }}
+            <input class="button" type="submit" value="Confirmar entrega">
+        </div>
+    </form>
+</body>
 
 {% endblock content %}

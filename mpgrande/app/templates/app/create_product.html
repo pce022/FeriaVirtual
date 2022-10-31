@@ -2,25 +2,16 @@
 
 {% block content %} 
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Crear Producto 🍑</h2>
-        
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-                {% csrf_token %} <!--validar -->
+<body>
+    <h2>Crear Producto </h2>
+        <form method="POST" class="container2">
+            <div class="form1">
+                {% csrf_token %}
+                {{ from_producto}}
 
-                {{ from_producto.as_bootstrap }}
-
-                <input class="btn btn-default" type="submit" value="Crear producto">
-
+                <input class="button" type="submit" value="Crear producto">
                 <h2 class="reg-prod">Mis Productos</h2>
-
-                <hr width="30%">
             </div>
-
             <script>
                 function eliminarProducto(id){
                     Swal.fire({
@@ -43,11 +34,7 @@
                 }
             
             </script>
-
-           
-             
-
-            <table class="table table-bordered">
+            <table  class="form1" >
                 <thead>
                     <tr>
                         <th>id</th>
@@ -102,7 +89,6 @@
             </table>       
                
         </form>
-    </div>
-</div>
+</body>
 
 {% endblock content %}
