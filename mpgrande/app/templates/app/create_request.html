@@ -29,7 +29,7 @@
             <div class="form-group">
             
                 {% csrf_token %} <!--validar -->
-                {{ from_solicitud.as_p }}
+                {{ from_solicitud.as_bootstrap }}
 
                 <input class="btn btn-default" type="submit" value="Listo">
 
@@ -103,7 +103,7 @@
                                                 <a href="#" onclick="eliminarSolicitud({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
                                                 
                                                 
-                                                {% if  user|has_role:'moderador'  %}
+                                                {% if  user|has_role:'administrador'  %}
         
                                                 <a href="{%  url 'modify_status_request' p.id %}" class="btn btn-info btn-sm ">Modificar Estado</a>
                                                 {% endif %}

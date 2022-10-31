@@ -72,7 +72,7 @@
                                                     
 
 
-                                                    {% if user|has_role:'moderador' or p.usuario_fk.username == user.username and p.fk_estado_venta.estado_venta == "Venta en curso"%}
+                                                    {% if user|has_role:'administrador' or p.usuario_fk.username == user.username and p.fk_estado_venta.estado_venta == "Venta en curso"%}
 
                                                     <a href="{%  url 'create_ticket' p.id %}" class="btn btn-info btn-sm ">Crear boleta</a>
                                                     

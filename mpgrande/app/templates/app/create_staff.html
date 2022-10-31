@@ -10,7 +10,7 @@
             <div class="form-group">
             
                 {% csrf_token %} <!--validar -->
-                {{ from_personal.as_p }}
+                {{ from_personal.as_bootstrap }}
 
                 <input class="btn btn-default" type="submit" value="Crear Personal">
 
@@ -45,7 +45,7 @@
                             <table class="table table-bordered"> 
                                 {% load permission_tags %}
                                     {% if personal  %}    
-                                        {% if user|has_role:'moderador'  %}
+                                        {% if user|has_role:'administrador'  %}
                                             <h2 class="reg-prod">Lista de personal registrados </h2>
                                             <hr width="50%"> 
                                                

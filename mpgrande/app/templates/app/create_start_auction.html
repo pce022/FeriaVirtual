@@ -73,7 +73,7 @@
                     <hr width="30%">     
 
                     {% csrf_token %}
-                    {{ formulario3.as_p }}
+                    {{ formulario3.as_bootstrap }}
 
                     <input class="btn btn-default" type="submit" value="Crear subasta">
 
@@ -83,7 +83,7 @@
                     {% if user|has_role:'transportista'   %}
 
                     {% csrf_token %}
-                    {{ formulario.as_p }}
+                    {{ formulario.as_bootstrap }}
 
 
 
