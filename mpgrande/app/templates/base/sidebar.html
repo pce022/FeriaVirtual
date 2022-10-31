@@ -94,7 +94,7 @@
             <a href="{% url 'list_ticket_producer' %}">  Boletas </a>
             {% endif %}
 
-            {% if perms.cuenta.add_personal %}
+            {% if perms.app.add_personal %}
             <a href="{% url 'create_staff' %}">Crear personal</a>
             {% endif %}
 
