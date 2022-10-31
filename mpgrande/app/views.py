@@ -277,7 +277,11 @@ def create_product(request):
             instance.save() 
             messages.success(request, "Producto Registrado")
             
-        return redirect('create_product')
+            return redirect('create_product')
+    else:
+        from_producto = ProductFrom
+        
+    return  render(request, 'app/create_product.html', {'from_producto':from_producto, 'productos':productos})        
 
 @login_required 
 @has_role_decorator('productor')
@@ -293,9 +297,6 @@ def post_create_product(request):
             messages.success(request, "Producto registrado en inventario")
             
             return redirect('post_create_product')
-
-
-
     else:
         from_producto = Post_ProductFrom
         
