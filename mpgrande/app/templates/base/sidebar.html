@@ -19,7 +19,7 @@
     {%load static%}
     <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
      <!-- estilos -->
-    <link rel="stylesheet" href="{% static 'app/css/sidebar.css'%}">
+    <link rel="stylesheet" href="{% static '/css/sidebar.css'%}">
     <!-- estilos -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -61,9 +61,7 @@
 <div class="container-menu">
 	<div class="cont-menu">
 		<nav>
-			<a href="#">nodef</a>
             {% load permission_tags %}
-
             {% if user|has_role:'moderador'  %}
             <a href="{% url 'create_staff' %}"> Personal</a>
             <a href="{% url 'list_request' %}"> Solicitudes</a>
@@ -96,10 +94,7 @@
 
             {% if perms.app.add_personal %}
             <a href="{% url 'create_staff' %}">Crear personal</a>
-            {% endif %}
-
-            
-
+            {% endif %} 
 		</nav>
 		<label for="btn-menu">X</label>
 	</div>
