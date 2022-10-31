@@ -277,7 +277,7 @@ def create_product(request):
             instance.save() 
             messages.success(request, "Producto Registrado")
             
-            return redirect('create_product')
+        return redirect('create_product')
 
 @login_required 
 @has_role_decorator('productor')
