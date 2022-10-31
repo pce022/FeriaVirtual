@@ -1,0 +1,17 @@
+body{
+    background: #eee;
+    
+ }
+ 
+ .container2{
+    max-width: 1200px;
+    margin:50px;
+    padding:3rem 8rem;
+ }
+
+.form1{
+    color: black;
+    text-align: center;
+    display: grid;
+    
+}
