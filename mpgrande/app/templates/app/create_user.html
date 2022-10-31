@@ -1,18 +1,14 @@
 {% extends 'base/sidebar.html' %}
 {% block content %} 
 
-<div class="container">
-    <div class="col-md-8 col-md-offset-2 form-box">
-        <h2>Crear Usuario 🙎🏽‍♂️</h2>
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
+<body>
+    <h2>Crear Usuario</h2>
+        <form method="POST" class="container2">
+            <div class="form1">
                 {% csrf_token %} 
-                {{ form_usuario.as_bootstrap }}
-                <input class="btn btn-default" type="submit" value="Crear usuario">
+                {{ form_usuario}}
+                <input class="button" type="submit" value="Crear usuario">
                 <h2 class="reg-prod">Lista de usuarios registrados </h2>
-                <hr width="30%"> 
-
             </div>    
 
                 <script>
@@ -30,12 +26,7 @@
                 
                         }).then(function(result) {
                             if (result.isConfirmed) {
-                            window.location.href = "/delete_user/"+id+"/"
-                        }
-                        })
-                
-                    }
-                
+                            window.location.href = "/delete_user/"+id+"/"}})}
                 </script>
                 <table class="table table-bordered">
                     <thead>
@@ -71,7 +62,6 @@
                     </tbody>
                 </table>     
         </form>
-    </div>
-</div>
+</body>
 
 {% endblock content %}

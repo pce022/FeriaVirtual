@@ -4,87 +4,68 @@
 
 {% load static %}
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2> Hola, {{user.username}}🍑</h2> 
-        
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-
-                <div id="container"></div>
-                <p class="highcharts-description">
-                    
-                </p>
-
-            </div>
-            <script >
-
-
-                Highcharts.chart('container', {
-                    chart: {
-                        type: 'column'
-                    },
+<body>
+    <h2> Hola, {{user.username}}</h2> 
+    <form method="POST" class="container2">
+        <script >
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Reporte de ventas del año'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
                     title: {
-                        text: 'Reporte de ventas del año'
-                    },
-                    subtitle: {
-                        text: ''
-                    },
-                    xAxis: {
-                        categories: [
-                            'Enero',
-                            'Febrero',
-                            'Marzo',
-                            'Abril',
-                            'Mayo',
-                            'Junio',
-                            'Julio',
-                            'Agosto',
-                            'Septiembre',
-                            'Octubre',
-                            'Noviembre',
-                            'Diciembre'
-                        ],
-                        crosshair: true
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: 'Rainfall $'
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-                        footerFormat: '</table>',
-                        shared: true,
-                        useHTML: true
-                    },
-                    plotOptions: {
-                        column: {
-                            pointPadding: 0.2,
-                            borderWidth: 0
-                        }
-                    },
-                    series: [{
-                        name: 'Venta ',
-                        showInLegend: false,
-                        colorByPoint: true,
-                        data:  [0,0,0,0,0,0,0,0,0,0,0 ,{{data11}} ]
+                        text: 'Rainfall $'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Venta ',
+                    showInLegend: false,
+                    colorByPoint: true,
+                    data:  [0,0,0,0,0,0,0,0,0,0,0 ,{{data11}} ]
+                },]
+            });
 
-
-
-                    },]
-                });
-
-            </script>
+        </script>
+       
            
-               
-        </form>
-        
-    </div>
-</div>
-
+    </form>
+</body>
 {% endblock content %}

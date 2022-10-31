@@ -8,20 +8,15 @@
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
 
-<div class="container">
-    <div class="col-md-8 col-md-offset-2 form-box">
-        <h2>Modificar solicitud</h2>
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-                {% csrf_token %} <!--validar -->
-                {{ from_solicitud.as_bootstrap }}
-
-                <input class="btn btn-default" type="submit" value="Modificar solicitud">
-            </div>
-        </form>
-    </div>
-</div>
+<body>
+    <h2>Modificar solicitud</h2>
+    <form method="POST" class="container2">
+        <div class="form1">
+            {% csrf_token %}
+            {{ from_solicitud}}
+            <input class="button" type="submit" value="Modificar solicitud">
+        </div>
+    </form>
+</body>
 
 {% endblock content %}
