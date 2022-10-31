@@ -112,7 +112,7 @@
                                         
                                         <td>
 
-                                            {% if user|has_role:'moderador' %}
+                                            {% if user|has_role:'administrador' %}
                                             <a href="{%  url 'modify_request_status' p.id %}" class="btn btn-info btn-sm ">Aprobar/Denegar</a>
                                             <a href="{%  url 'producer_create_request' p.id %}" class="btn btn-info btn-sm ">Crear lote</a>
                                             {% endif %}

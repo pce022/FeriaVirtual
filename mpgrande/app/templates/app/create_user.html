@@ -8,7 +8,7 @@
         <form method="POST">
             <div class="form-group">
                 {% csrf_token %} 
-                {{ form_usuario.as_p }}
+                {{ form_usuario.as_bootstrap }}
                 <input class="btn btn-default" type="submit" value="Crear usuario">
                 <h2 class="reg-prod">Lista de usuarios registrados </h2>
                 <hr width="30%"> 
