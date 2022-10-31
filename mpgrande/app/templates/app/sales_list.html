@@ -1,6 +1,12 @@
 {% extends 'base/sidebar.html' %}
 
-{% block content %} 
+{%load static%} 
+
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%}  
 
 <div class="container">
     <div class="col-md-7 col-md-offset-3 form-box">
@@ -59,7 +65,7 @@
                                 {% for p in ventas %}  
                                 {% load permission_tags %}
 
-                                    {% if p.usuario_fk.username == user.username or user|has_role:'moderador' %} 
+                                    {% if p.usuario_fk.username == user.username or user|has_role:'administrador' %} 
                                             <tr>
                                                 <td> {{ p.id }} </td>
                                                 <td>{{ p.fec_venta  }}</td>
@@ -79,7 +85,7 @@
                                                     {% endif %}
                                                     
 
-                                                    {% if user|has_role:'moderador' or p.usuario_fk.username == user.username and p.fk_estado_venta.estado_venta == "Venta terminada"%}
+                                                    {% if user|has_role:'administrador' or p.usuario_fk.username == user.username and p.fk_estado_venta.estado_venta == "Venta terminada"%}
 
                                                     <a href="{%  url 'confirm_delivery' p.id %}" class="btn btn-info btn-sm "> Confirmar entrega </a>
                                                     
