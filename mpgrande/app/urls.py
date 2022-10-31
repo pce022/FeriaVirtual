@@ -54,11 +54,30 @@ urlpatterns = [
     path('info_approve_request/<id>/', approve_producer_client_request, name ='info_approve_request'),
     path('reject_producer_client_request/<id>/', reject_producer_client_request, name ='reject_producer_client_request'),
     #Auction (Subasta)
-    
+    path('auction/<id>/', participate_auction, name ='participate_auction'),
+    path('start_auction/<id>/', start_auction_participate, name ='start_auction_participate'),
+    path('participate_auction_carrier/<id>/<id_subasta>', participate_auction_carrier, name ='participate_auction_carrier'),
+    path('end_auction/<id>/<id2>/', end_auction, name ='end_auction'),
+    path('list_auction/<id>/<nombreCliente>/<id_solicitud>/', list_auction, name ='list_auction'),
+    path('delete_auction/<id>/', delete_auction, name ='delete_auction'),
+    #Sale/Ticket
+    path('sales_list/', sales_list, name ='sales_list'),
+    path('create_ticket/<id>/', create_ticket, name ='create_ticket'),
+    path('list_ticket/', list_ticket, name ='list_ticket'),
+    path('list_ticket_trans/', list_ticket_trans, name ='list_ticket_trans'),
+    path('list_ticket_producer/', list_ticket_producer, name ='list_ticket_producer'),
+    path('list_ticket_client/', list_ticket_client, name ='list_ticket_client'),
+    path('confirm_delivery<id>/', confirm_delivery, name ='confirm_delivery'),
+    path('info_ticket/<id>/', info_ticket, name ='info_ticket'),
+    #API
+    path('api/', include(router.urls)),
+    #PDF
+    path('pdf_converterViews/<id>/', pdf_converterViews.as_view() , name ='pdf_converterViews'),
+    path('pdf_converterTransViews/<id>/', pdf_converterTransViews.as_view() , name ='pdf_converterTransViews'),
+    path('pdf_converterProductorViews/<id>/', pdf_converterProductorViews.as_view() , name ='pdf_converterProductorViews'),
+    #Graphics
+    path('graphics/', graphics, name = 'graphics'),
 
 
 
-
-
-
-] 
+]
