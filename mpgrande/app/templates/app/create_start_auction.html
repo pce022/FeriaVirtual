@@ -31,7 +31,7 @@
                     {% endif %}
                 {% endfor %} 
                     {% if user|has_role:'productor'   %}
-                         <input class="button" type="submit" value="Participar">
+                    <input class="button" type="submit" value="Participar">
                     {% endif %}
                     {% if user|has_role:'externo' or user|has_role:'interno'  %}
                     <h3>Datos de envío</h2>    

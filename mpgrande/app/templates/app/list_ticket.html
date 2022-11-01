@@ -9,22 +9,11 @@
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Mis boletas 🍑</h2>
-        
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-               
-
-            </div>
-
-           
-
-           
-        {% load permission_tags %}      
+<body>
+    <h2>Mis boletas</h2>
+        <form method="POST"  class="container2"> 
+            <div class="form1">
+                {% load permission_tags %}      
         {% if user|has_role:'externo' or user|has_role:'interno'  %}
             <table class="table table-bordered">
                 <thead>
@@ -71,8 +60,6 @@
                 </tbody>
             </table>       
             {% endif %}     
-
-           
             {% if user|has_role:'transportista'   %}
             <table class="table table-bordered">
                 <thead>
@@ -100,15 +87,11 @@
                         <td>{{ p.fk_venta.fk_subasta.fk_transportistaa_usuario }}</td>
                         
                         <td>
-                            
                             {% if  p.fk_venta.fk_estado_venta.estado_venta == 'Venta terminada'%} <!-- PARA FK---->
 
-                                  <a href="{%  url 'pdf_converterTransViews' p.id %}" class="btn btn-info btn-sm ">Descargar pdf</a>
-                                  
+                                  <a href="{%  url 'pdf_converterTransViews' p.id %}" class="btn btn-info btn-sm ">Descargar pdf</a>   
                             {% endif  %}
-                    
                         {% endif %}    
-                       
                         </td>
                     </tr>
                 {% endfor %}    
@@ -118,14 +101,10 @@
                 </tbody>
             </table>     
             {% endif %}  
-            
-
             {% if user|has_role:'productor'   %}
             <table class="table table-bordered">
                 <thead>
-
                     <tr>
-                        
                         <th>id</th>
                         <th>Fecha</th>
                         <th>Cliente </th>
@@ -133,7 +112,6 @@
                         <th>Estado </th>
                         <th>Productor</th>
                         <th>Opciones</th>
-                         
                     </tr>
                 </thead>
                 {% if boletas  %}    
@@ -149,27 +127,21 @@
                         <td>{{ p.fk_venta.fk_subasta.fk_solicitud.usuario_fk }}</td>
                         
                         <td>
-                            
-                                {% if  p.fk_venta.fk_estado_venta.estado_venta == 'Venta terminada'%} <!-- PARA FK---->
-
-                                    <a href="{%  url 'pdf_converterProductorViews' p.id %}" class="btn btn-info btn-sm ">Descargar pdf</a>
-                                    
-                                {% endif  %}
-                           
+                            {% if  p.fk_venta.fk_estado_venta.estado_venta == 'Venta terminada'%} <!-- PARA FK---->
+                                <a href="{%  url 'pdf_converterProductorViews' p.id %}" class="btn btn-info btn-sm ">Descargar pdf</a>   
+                            {% endif  %}    
                         </td>
                         {% endif  %}
                     </tr>
-                    
-                    
                 {% endfor %}    
                 {% else %}
                 <h3>No hay registros</h3>
                 {% endif %}
                 </tbody>
             </table>     
-            {% endif %}  
+            {% endif %}
+            </div>
         </form>
-    </div>
-</div>
+</body>
 
 {% endblock content %}

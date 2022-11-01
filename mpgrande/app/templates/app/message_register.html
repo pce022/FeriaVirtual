@@ -8,33 +8,15 @@
 {%block css%} 
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
+<body>
+    <h2> Solicitud de registro </h2>
+    <form method="POST" class="container2" >
+        <div class="form1">
+            {% csrf_token %} 
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2> Solicitud de registro </h2>
-        
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-                {% csrf_token %} <!--validar -->
-
-                {{ formulario.as_bootstrap }}
-
-
-                
-
-
-
-                <input class="btn btn-default" type="submit" value="Enviar ">
-
-              
-            </div>
-
-           
-               
-        </form>
-    </div>
-</div>
-
+            {{ formulario}}
+            <input class="button" type="submit" value="Enviar ">
+        </div>     
+    </form>
+</body>
 {% endblock content %}

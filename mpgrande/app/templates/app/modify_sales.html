@@ -9,26 +9,16 @@
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Modificar venta  🍑</h2>
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-                {% csrf_token %} <!--validar -->
-
-                {{ from_venta.as_bootstrap }}
-
-                <input class="btn btn-default" type="submit" value="Modificar venta">
-
-                
-                <hr width="30%">
-            </div>
-
-        
-        </form>
-    </div>
-</div>
+<body>
+    <h2>Modificar venta</h2>
+    <form method="POST" class="container2">
+        <div class="form1">
+            {% csrf_token %}
+            {{ from_venta}}
+            <input class="button" type="submit" value="Modificar venta">
+        </div>
+    </form>
+       
+</body>
 
 {% endblock content %}

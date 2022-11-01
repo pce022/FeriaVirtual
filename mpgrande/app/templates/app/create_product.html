@@ -66,14 +66,14 @@
                         <td>{{ p.usuario_fk  }}</td>
                         <td>
                             
-                            <a href="{%  url 'modify_product' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
+                            <a href="{%  url 'modify_product' p.id %}" >Modificar</a>
 
 
-                            <a href="#" onclick="eliminarProducto({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+                            <a href="#" onclick="eliminarProducto({{ p.id }})" >Eliminar</a>
 
-                            {% if p.estado_fk.desc_estado  == "Disponible" and p.usuario_fk.username != user.username %} <!-- PARA FK---->
+                            {% if p.estado_fk.desc_estado  == "Disponible" and p.usuario_fk.username != user.username %}
 
-                                  <a href="{%  url 'create_sale' p.id %}" class="btn btn-info btn-sm ">Crear venta</a>
+                                  <a href="{%  url 'create_sale' p.id %}" >Crear venta</a>
                                   
                             {% endif  %}
 

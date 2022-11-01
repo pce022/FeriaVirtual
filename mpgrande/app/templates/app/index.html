@@ -10,46 +10,30 @@
 
 <main>
     <div class="container">
-        <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-            <h2> Hola, {{user.username}}</h2> 
-            
-            <hr width="30%">
-            <form method="POST">
-                <div class="form-group">
-            
-                   
+        <h2> Hola, {{user.username}}</h2> 
+            <form method="POST" class="container2">
+                <div class="form1">
                     <div>
-                       
-                      
                        <table class="table table-bordered">
-    
                         {% if user|has_role:'externo' or user|has_role:'interno'  %}
                         <h3>Mis solicitudes de creación de lote pendientes</h3>
-                        <table class="table table-bordered">
-                    
-                                   
+                        <table class="table table-bordered">     
                             <tbody>
                                 <tr>
                                     <th>id</th>
-                                    
                                     <th>Estado</th>
                                     <th>Fruta espacio 1</th>
                                     <th>Fruta espacio 2</th>
                                     <th>Fruta espacio 3</th>
                                     <th>Opciones</th>
-                                    
                                 </tr>
-                            
-                            
                             {% if solicitudes  %}    
                             {% for p in solicitudes %}  
                                 {% if p.usuario_fk.username == user.username %} 
                                 {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente"%} 
                                     <tr>
                                         <td> {{ p.id }} </td>
-                                        
                                         <td>{{ p.fk_estado_solicitud  }} </td>
-                                    
                                         <td>{{ p.nombre_fruta_espacio1  }} {{ p.kilos_fruta_espacio1 }} Kilos </td>
                                         <td>{{ p.nombre_fruta_espacio2  }} {{ p.kilos_fruta_espacio2 }} Kilos </td>
                                         <td>{{ p.nombre_fruta_espacio3  }} {{ p.kilos_fruta_espacio3 }} Kilos </td>
@@ -58,22 +42,14 @@
                                             {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente" and p.usuario_fk.username == user.username  or  user|has_role:'moderador'  %}
                                             <a href="{%  url 'modify_request' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
                                             {% endif %}
-    
                                             <a href="#" onclick="eliminarSolicitud({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
-                                            
-                                            
                                             {% if  user|has_role:'administrador'  %}
-    
                                             <a href="{%  url 'modify_request_status' p.id %}" class="btn btn-info btn-sm ">Modificar Estado</a>
                                             {% endif %}
-    
                                             {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Aprobado" and user|has_role:'moderador'  %}
                                             <a href="{%  url 'producer_create_request' p.id %}" class="btn btn-info btn-sm ">Crear lote</a>
                                             {% endif %}
                                         </td>
-
-
-                                        
                                     </tr>
                                 {% endif %}
                                 {% endif %}
@@ -82,11 +58,8 @@
                             <h3>No hay registros</h3>
                             {% endif %}
                             </tbody>
-            
                         </table> 
                         {% endif %}
-    
-    
                         {% if user|has_role:'productor'   %}
     
                         <h3>Mis solicitudes de lote pendientes</h3>
@@ -320,7 +293,8 @@
                
                    
             </form>
-        </div>
+            
+        
     </div>
 </main>
 
