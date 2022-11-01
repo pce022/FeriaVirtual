@@ -1,8 +1,13 @@
 {% extends 'base/sidebar.html' %}
 
-{% block portada %} Crear solicitud   {% endblock portada %}
+{{%load static%} 
 
-{% block content %} 
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%} 
+
 {% load permission_tags %}
 <body>
     {% if user|has_role:'externo' or user|has_role:'interno'  %}

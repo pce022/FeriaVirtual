@@ -1,7 +1,13 @@
 {% extends 'base/sidebar.html' %}
 
-{% block content %} 
-{% load permission_tags %}
+{%load static%} 
+
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%} 
+
 <div class="container">
     <div class="col-md-7 col-md-offset-3 form-box">
         <h2>Lista de solicitudes disponibles</h2>

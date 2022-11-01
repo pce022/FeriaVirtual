@@ -1,8 +1,12 @@
 {% extends 'base/sidebar.html' %}
 
-{% block content %} 
+{%load static%} 
 
-{% load static %}
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%} 
 
 <body>
     <h2> Hola, {{user.username}}</h2> 

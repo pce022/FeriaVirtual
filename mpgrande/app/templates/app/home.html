@@ -1,12 +1,14 @@
-{% extends 'base/header.html' %}
+% extends 'base/base.html' %}
 
-{%load static%} 
 
-{% block content %}
 
-{%block css%} 
-<link rel="stylesheet" href="{% static '/css/home.css'%}">
-{%endblock%} 
+
+
+
+
+
+{% block content %} 
+{% load permission_tags %}
 
 <main>
     <div class="container-form">

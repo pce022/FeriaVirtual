@@ -1,10 +1,12 @@
 {% extends 'base/sidebar.html' %}
 
-{% block titulo %} Crear producto  {% endblock titulo %}
+{%load static%} 
 
-{% block portada %} Crear producto {% endblock portada %}
+{% block content %}
 
-{% block content %} 
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%}  
 
 <body>
     <h2> Boleta </h2>

@@ -2,8 +2,11 @@
 
 {%load static%} 
 
-{% block content %} 
-{% load permission_tags %}
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%} 
 
 <main>
     <div class="container">
