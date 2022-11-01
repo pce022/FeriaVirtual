@@ -1,7 +1,7 @@
 {% extends 'base/sidebar.html' %}
 
 {%load static%} 
-
+{% load permission_tags %}
 {% block content %}
 
 {%block css%} 
@@ -11,7 +11,7 @@
 <main>
     <div class="container">
         <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-            <h2> Hola, {{user.username}}🍑</h2> 
+            <h2> Hola, {{user.username}}</h2> 
             
             <hr width="30%">
             <form method="POST">

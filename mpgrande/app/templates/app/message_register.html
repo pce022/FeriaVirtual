@@ -2,6 +2,7 @@
 
 {%load static%} 
 
+{% load permission_tags %}
 {% block content %}
 
 {%block css%} 
@@ -10,7 +11,7 @@
 
 <div class="container">
     <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2> Solicitud de registro 🍑</h2>
+        <h2> Solicitud de registro </h2>
         
         <hr width="30%">
         <form method="POST">

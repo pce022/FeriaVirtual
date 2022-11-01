@@ -1,7 +1,14 @@
 {% extends 'base/base.html' %}
 
 
-{% block content %} 
+{%load static%} 
+
+{% load permission_tags %}
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%}  
 
 <body>
     <h2>Participar en subasta</h2>
