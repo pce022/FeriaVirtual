@@ -1,8 +1,14 @@
 {% extends 'base/base.html' %}
 
 
+{%load static%} 
+
 {% load permission_tags %}
-{% block content %} 
+{% block content %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static '/css/base.css'%}">
+{%endblock%} 
 
 <body>
     <h2>Terminar subasta </h2>
