@@ -8,50 +8,28 @@
 {%block css%} 
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
-
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Información de la solicitud </h2>
-        
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
+<body>
+    <h2>Información de la solicitud </h2>
+        <form method="POST" class="container2">
+            <div class="form1">
             
-                {% csrf_token %} <!--validar -->
+                {% csrf_token %}
 
-                {{ formulario.as_bootstrap }}
-
+                {{ formulario }}
 
                 {% for p in id_Solicitud %} 
-
                     {% if p.id == Solicitud_id.id %}
-
                     <div>
                         <h2>Detalles </h4>
                         
                         <h3>Fruta 1:  </h1> {{ p.fk_frutas_espacio1  }}  a ${{ p.fk_frutas_espacio1.fk_desc_fruta_espacio1.valor_producto }}
                         <h3>Fruta 2:  </h1> {{ p.fk_frutas_espacio2  }}  a ${{ p.fk_frutas_espacio2.fk_desc_fruta_espacio2.valor_producto }}
-                        <h3>Fruta 3:  </h1> {{ p.fk_frutas_espacio3  }}  a ${{ p.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto }}
-    
-                            
+                        <h3>Fruta 3:  </h1> {{ p.fk_frutas_espacio3  }}  a ${{ p.fk_frutas_espacio3.fk_desc_fruta_espacio3.valor_producto }}                            
                     </div>
-
-
                     {% endif %}
-                    
                 {% endfor %} 
-
-
-
-                <input class="btn btn-default" type="submit" value="Aceptar">
-
-              
+                <input class="button" type="submit" value="Aceptar">
             </div>
-
-           
-               
         </form>
-    </div>
-</div>
-
+</body>
 {% endblock content %}

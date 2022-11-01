@@ -8,23 +8,14 @@
 {%block css%} 
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
-<div class="container">
-    <div class="col-md-6 col-md-offset-3 form-box">
-        <h2>Modificar Usuario</h2>
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-                {% csrf_token %}
-
-                {{ form_usuario.as_bootstrap }}
-
-                <input class="btn btn-default" type="submit" value="Modificar usuario">
-
-                
-            </div>
-        </form>
-    </div>
-</div>
-
+<body>
+    <h2>Modificar Usuario</h2>
+    <form method="POST" class="container2">
+        <div class="form1">
+            {% csrf_token %}
+            {{ form_usuario}}
+            <input class="button" type="submit" value="Modificar usuario">
+        </div>
+    </form>   
+</body>
 {% endblock content %}

@@ -8,23 +8,11 @@
 {%block css%} 
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
-
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Mis boletas 🍑</h2>
-        
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-            
-               
-
-            </div>
-
-           
-
-           
-        {% load permission_tags %}      
+<body>
+    <h2>Mis boletas </h2>
+        <form method="POST" class="container2">
+            <div class="form1">
+                {% load permission_tags %}      
         {% if user|has_role:'consultor'   %}
         <table class="table table-bordered">
             <thead>
@@ -34,7 +22,6 @@
                     <th>Cliente </th>
                     <th>Id venta</th>
                     <th>Estado</th>
-                    
                     <th>Transportista </th>
                     <th>Opciones</th>
                 </tr>
@@ -43,24 +30,16 @@
             {% for p in boletas %}   
             <tbody>
                 <tr>
-                    
                     <td>{{ p.id  }}</td>
                     <td>{{ p.fec_boleta  }}</td>
                     <td>{{ p.usuario_fk  }}</td>
                     <td>{{ p.fk_venta  }}</td>
                     <td>{{ p.fk_venta.fk_estado_venta  }}</td>
                     <td>{{ p.fk_venta.fk_subasta.fk_transportistaa_usuario }}</td>
-                    
                     <td>
-                        
                         {% if  p.fk_venta.fk_estado_venta.estado_venta == 'Venta terminada'%} <!-- PARA FK---->
-
                               <a href="{%  url 'pdf_converterTransViews' p.id %}" class="btn btn-info btn-sm ">Descargar pdf</a>
-                              
                         {% endif  %}
-                
-                      
-                   
                     </td>
                 </tr>
             {% endfor %}    
@@ -70,8 +49,9 @@
             </tbody>
         </table>     
         {% endif %}  
+            </div>
+        
         </form>
-    </div>
-</div>
+</body>
 
 {% endblock content %}

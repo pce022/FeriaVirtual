@@ -9,12 +9,10 @@
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
 
-<div class="container">
-    <div class="col-md-6 col-md-offset-3 form-box">
-        <h2>Lista de ventas</h2>
-        <hr width="50%">
-        <form method="POST">
-            <div class="form-group">
+<body>
+    <h2>Lista de ventas</h2>
+        <form method="POST" class="container2">
+            <div class="form1">
         
              <script>
                 function eliminarVenta(id){
@@ -31,17 +29,8 @@
             
                     }).then(function(result) {
                         if (result.isConfirmed) {
-                        window.location.href = "/delete_sales/"+id+"/"
-                    }
-                    })
-            
-                }
-            
+                        window.location.href = "/delete_sales/"+id+"/"}})}
             </script>
-
-
-             
-
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -75,15 +64,9 @@
                 <h3>No hay registros</h3>
                 {% endif %}
                 </tbody>
-
-            </table>               
-                
-    
-
-      
+            </table>              
             </div>
         </form>
-    </div>
-</div>
+</body>
 
 {% endblock content %}

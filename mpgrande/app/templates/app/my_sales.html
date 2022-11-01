@@ -8,53 +8,45 @@
 {%block css%} 
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
-<div class="container">
-    <div class="container-fluid p-0 col-md-8 col-md-offset-2 col-sm-12 form-box">
-        <h2>Mis compras</h2>
-        <hr width="30%">
-        <form method="POST">
-            <div class="form-group">
-                <h3>Mis compras </h2>
-                {% csrf_token %} <!--validar -->
+<body>
+    <h2>Mis compras</h2>
+    <form method="POST" class="container2">
+        <div class="form1">
+            <h3>Mis compras </h2>
+            {% csrf_token %} 
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Fecha </th>
+                        <th>Estado</th>
+                        <th>Producto </th>
+                        <th>Precio </th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                {% if ventas  %}    
+                {% for p in ventas %}   
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>Fecha </th>
-                            <th>Estado</th>
-                            <th>Producto </th>
-                            <th>Precio </th>
-                            <th>Usuario</th>
-                        </tr>
-                    </thead>
-                    {% if ventas  %}    
-                    {% for p in ventas %}   
-
-                    <tbody>
-                        <tr>
-                            {% if p.usuario_fk.username == user.username  %}
-                            <td>{{ p.id  }}</td>
-                            <td>{{ p.fec_venta  }}</td>
-                            <td>{{ p.fk_estado_venta  }}</td>
-                            <td>{{ p.fk_producto  }}</td>
-                            <td>{{ p.fk_producto.valor_producto  }}</td>
-                            <td>{{ p.usuario_fk  }}</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}    
-                    {% else %}
-                    <h3>No hay registros</h3>
-                    {% endif %}
-                    </tbody>
-    
-                </table>     
-
-                
-            </div>
-                   
-        </form>
-    </div>
-</div>
+                <tbody>
+                    <tr>
+                        {% if p.usuario_fk.username == user.username  %}
+                        <td>{{ p.id  }}</td>
+                        <td>{{ p.fec_venta  }}</td>
+                        <td>{{ p.fk_estado_venta  }}</td>
+                        <td>{{ p.fk_producto  }}</td>
+                        <td>{{ p.fk_producto.valor_producto  }}</td>
+                        <td>{{ p.usuario_fk  }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}    
+                {% else %}
+                <h3>No hay registros</h3>
+                {% endif %}
+                </tbody>
+            </table>        
+        </div>     
+    </form>
+</body>
 
 {% endblock content %}

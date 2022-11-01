@@ -9,12 +9,10 @@
 <link rel="stylesheet" href="{% static '/css/base.css'%}">
 {%endblock%} 
 
-<div class="container">
-    <div class="col-md-6 col-md-offset-3 form-box">
-        <h2>Lista de productos</h2>
-        <hr width="50%">
-        <form method="POST">
-            <div class="form-group">
+<body>
+    <h2>Lista de productos</h2>
+        <form method="POST" class="container2">
+            <div class="form1">
         
                 <script>
                     function eliminarProducto(id){
@@ -38,10 +36,6 @@
                     }
                 
                 </script>
-    
-    
-                 
-    
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -74,15 +68,10 @@
                                   <a href="{%  url 'create_sale' p.id %}" class="btn btn-info btn-sm ">Crear venta</a>
                                   
                                 {% endif  %}
-
-
-
                                 {% if user|has_role:'administrador'  %}
                         
                                 <a href="#" onclick="eliminarProducto({{ p,id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
                                 {% endif %}
-                                
-                                
                             </td>
                         </tr>
                     {% endfor %}    
@@ -91,14 +80,8 @@
                     {% endif %}
                     </tbody>
     
-                </table>              
-                
-    
-
-      
+                </table>             
             </div>
         </form>
-    </div>
-</div>
-
+</body>
 {% endblock content %}

@@ -33,70 +33,57 @@
 
 </script>
 
-
-<div class="container">
-    <div class="col-md-10 col-md-offset-1 form-box">
-        <h2>Lista de personal</h2>
-        <hr width="50%">
-        <form method="POST">
-            <div class="form-group">
-        
-            <table class="table table-bordered">
-
-               
-
-                <tbody>
-                    <tr>
-                        <th> id </th>
-                        <th> Usuario </th>
-                        <th> Rut  </th>
-                        <th> Telefono </th>
-                        <th> Direccion  </th>
-                        <th> Pais  </th>
-                        <th> Region  </th>
-                        <th> Providencia  </th>
-                        <th> Profesion  </th>
-                        <th> Sexo  </th>
-                        <th> Tipo personal  </th>
-                        <th>Opciones</th>
-                        
-                    </tr
+<body>
+    <h2>Lista de personal</h2>
+    <form method="POST" class="container2">
+        <div class="form1">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th> id </th>
+                    <th> Usuario </th>
+                    <th> Rut  </th>
+                    <th> Telefono </th>
+                    <th> Direccion  </th>
+                    <th> Pais  </th>
+                    <th> Region  </th>
+                    <th> Providencia  </th>
+                    <th> Profesion  </th>
+                    <th> Sexo  </th>
+                    <th> Tipo personal  </th>
+                    <th>Opciones</th>
+                </tr>
+            {% if personal  %}    
+            {% for p in personal %}   
+            <tr>
+                <td> {{ p.id }} </td>
+                <td>{{ p.usuario_fk  }}</td>
+                <td>{{ p.rut_personal  }}</td>
+                <td>{{ p.movil_personal  }}</td>
+                <td>{{ p.direccion_personal  }}</td>
+                <td>{{ p.pais_personal  }}</td>
+                <td>{{ p.region_personal  }}</td>
+                <td>{{ p.providencia_personal  }}</td>
+                <td>{{ p.profesion_personal  }}</td>
+                <td>{{ p.sexo_personal  }}</td>
+                <td>{{ p.tipo_personal_fk  }}</td>
+                <td>
+                    <a href="{%  url 'modify_staff' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
+                    <a href="#" onclick="eliminarPersonal({{ p,id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
+                </td>
+            </tr>
                 
-                
-                {% if personal  %}    
-                {% for p in personal %}   
-                 
-                    <tr>
-                        <td> {{ p.id }} </td>
-                        <td>{{ p.usuario_fk  }}</td>
-                        <td>{{ p.rut_personal  }}</td>
-                        <td>{{ p.movil_personal  }}</td>
-                        <td>{{ p.direccion_personal  }}</td>
-                        <td>{{ p.pais_personal  }}</td>
-                        <td>{{ p.region_personal  }}</td>
-                        <td>{{ p.providencia_personal  }}</td>
-                        <td>{{ p.profesion_personal  }}</td>
-                        <td>{{ p.sexo_personal  }}</td>
-                        <td>{{ p.tipo_personal_fk  }}</td>
-                        <td>
-                            <a href="{%  url 'modify_staff' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
-                            <a href="#" onclick="eliminarPersonal({{ p,id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
-                        </td>
-                    </tr>
-                {% endfor %}     
-                {% else %}
-                <h3>No hay registros</h3>
-                {% endif %}
-                </tbody>
+            {% endfor %}     
+            {% else %}
+            <h3>No hay registros</h3>
+            {% endif %}
+            </tbody>
 
-            </table>            
-                
+        </table>            
+        </div>
+    </form>
     
-
-      
-            </div>
-        </form>
-    </div>
-</div>
+        
+</body>
 
 {% endblock content %}
