@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +16,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500&family=Montserrat:wght@300&display=swap" rel="stylesheet"> 
+    {%load static%}
     <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
      <!-- estilos -->
-     {%load static%}
     <link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
     <!-- estilos -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -28,8 +29,8 @@
     <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
        
-    {% load pwa %}
-    {% progressive_web_app_meta %}
+        {% load pwa %}
+        {% progressive_web_app_meta %}
     
     <title>Feria Virtual, Maipo Grande</title>
 </head>
@@ -48,7 +49,7 @@
                     <a href="#" id="none">Usuario: {{user.username}}</a> 
                     {% else %}
                     <a href="/accounts/login/">Inicia sesión</a>
-                    <a href="/message_register">Solicitar registro</a>
+                    <a href="/message_register">Solicitud de registro</a>
                     
                     {% endif %}
                 </li>
@@ -59,10 +60,11 @@
 <input type="checkbox" id="btn-menu">
 <div class="container-menu">
 	<div class="cont-menu">
-        <label for="btn-menu">X</label>
 		<nav>
+			<a href="#">nodef</a>
             {% load permission_tags %}
-            {% if user|has_role:'administrador'  %}
+
+            {% if user|has_role:'moderador'  %}
             <a href="{% url 'create_staff' %}"> Personal</a>
             <a href="{% url 'list_request' %}"> Solicitudes</a>
             <a href="{% url 'register' %}"> Registrar usuario</a>
@@ -95,8 +97,11 @@
             {% if perms.app.add_personal %}
             <a href="{% url 'create_staff' %}">Crear personal</a>
             {% endif %}
+
+            
+
 		</nav>
-		
+		<label for="btn-menu">X</label>
 	</div>
 </div>
 
@@ -111,7 +116,7 @@
         {% for m in messages %}
         <script>
             Swal.fire({
-                title: 'Exito',
+                title: 'NICE!',
                 text: "{{m}}",
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
