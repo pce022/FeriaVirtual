@@ -72,7 +72,7 @@ def index(request):
 
 
 @login_required
-@has_role_decorator('moderador')
+@has_role_decorator('administrador')
 def register(request):
 
     data = {'form': CustomUserCreationFrom()}
@@ -83,10 +83,10 @@ def register(request):
             
             formulario.save()
             user = authenticate(username = formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"] )
-            assign_role(user, 'entrada')
-            assign_role(user, 'moderador') 
+            assign_role(user, 'inicial')
+            assign_role(user, 'administrador') 
             login(request, user) 
-            messages.success(request, "Registro completo, complete el siguiente formulario para terminar su registro")
+            messages.success(request, "Registro completo, rellene el siguiente formulario para finalizar su ingreso")
             return redirect(to="create_staff")
         data["form"] = formulario    
     
@@ -179,7 +179,7 @@ def modify_user(request, id):
     return render(request, 'app/modify_user.html', data)   
 
 @login_required 
-@has_role_decorator('moderador')
+@has_role_decorator('administrador')
 def create_staff(request):
     personal = Personal.objects.order_by('-id')
     if request.method == 'POST':
@@ -196,23 +196,23 @@ def create_staff(request):
             permiso = request.POST.get('tipo_personal_fk')
             if permiso == '2':
                 assign_role(user, 'externo') #asginar rol
-                remove_role(user, 'moderador') #asginar rol
+                remove_role(user, 'administrador') #asginar rol
             elif  permiso == '3':
                 assign_role(user, 'externo') #asginar rol
-                remove_role(user, 'moderador') #asginar rol
+                remove_role(user, 'administrador') #asginar rol
             elif  permiso == '4':
                 assign_role(user, 'productor') #asginar rol
-                remove_role(user, 'moderador') #asginar rol   
+                remove_role(user, 'administrador') #asginar rol   
             elif permiso == '5':
                 assign_role(user, 'transportista') #asginar rol  
-                remove_role(user, 'moderador') #asginar rol
+                remove_role(user, 'administrador') #asginar rol
             elif permiso == '6':
-                assign_role(user, 'moderador') #asginar rol
+                assign_role(user, 'administrador') #asginar rol
             elif permiso == '7':
                 assign_role(user, 'consultor') #asginar rol
-                remove_role(user, 'moderador') #asginar rol
+                remove_role(user, 'administrador') #asginar rol
             messages.success(request, "Registro completo")
-            remove_role(user, 'entrada')
+            remove_role(user, 'inicial')
          
             #correo eletronico
             subcjet = user.username #Nombre del contacto  
@@ -229,7 +229,7 @@ def create_staff(request):
 
 
 @login_required 
-@has_role_decorator('moderador')
+@has_role_decorator('administrador')
 def list_staff(request):
     personal = Personal.objects.order_by('-id')
     contexto = {'personal':personal}
@@ -238,7 +238,7 @@ def list_staff(request):
      
 
 @login_required 
-@has_role_decorator('moderador')
+@has_role_decorator('administrador')
 def delete_staff(request, id):
     personal = get_object_or_404(Personal, id=id)
     personal.delete()
@@ -246,7 +246,7 @@ def delete_staff(request, id):
     return redirect('/list_staff')
 
 @login_required 
-@has_role_decorator('moderador')
+@has_role_decorator('administrador')
 def modify_staff(request, id):
     
     personal = get_object_or_404(Personal, id=id)#buscar personal
@@ -463,7 +463,7 @@ def create_request(request):
             instance.fk_estado_solicitud = estado_solicitud.objects.get(desc_estado_solicitud=estado)
                 
             instance.save() 
-            messages.success(request, "Solicitud creada a espera que un moderador la apruebe")
+            messages.success(request, "Solicitud creada a espera que un administrador la apruebe")
             
             return redirect('create_request')
 
@@ -540,7 +540,7 @@ def modify_request(request,id):
     return render(request, 'app/modify_request.html', data) 
 
 
-@has_role_decorator('moderador')    
+@has_role_decorator('administrador')    
 @login_required 
 def modify_request_status(request,id):
     Solicitud = get_object_or_404(solicitud, id=id)

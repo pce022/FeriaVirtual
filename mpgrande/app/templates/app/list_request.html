@@ -53,7 +53,7 @@
                                 </tr>
                             {% if solicitudes  %}    
                             {% for p in solicitudes %}                      
-                                {% if p.usuario_fk.username == user.username or user|has_role:'moderador' %} 
+                                {% if p.usuario_fk.username == user.username or user|has_role:'administrador' %} 
                                         <tr>
                                             <td> {{ p.id }} </td>
                                             <td>{{ p.usuario_fk  }}</td>
@@ -69,7 +69,7 @@
                                                 {% endif %}
                                                 
     
-                                                {% if user|has_role:'moderador' %}
+                                                {% if user|has_role:'administrador' %}
                                                 <a href="{%  url 'modify_request_status' p.id %}" class="btn btn-info btn-sm ">Aprobar/Denegar</a>
                                                 {% endif %}
     
