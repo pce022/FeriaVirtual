@@ -165,15 +165,13 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "emailmaipogrande@gmail.com"
-EMAIL_HOST_PASSWORD= "DuocMaipu123"
-
-
+EMAIL_HOST_USER = "mpg.feriavirtual@gmail.com" #DuocMaipu2022 contraseña de ingreso al mail
+EMAIL_HOST_PASSWORD= "qzjcvtblyddvkwau" #Se da codigo mediante verificacion de 2 pasos.
 
 PWA_APP_NAME = "MaipoGrande"
-PWA_APP_DESCRIPTION = "Subasta Maipo grande"
-PWA_APP_THEME_COLOR = "#2D712D"
-PWA_APP_BACKGROUND_COLOR = "#2D712D"
+PWA_APP_DESCRIPTION = "Subasta MPG"
+PWA_APP_THEME_COLOR = "#2e6c47"
+PWA_APP_BACKGROUND_COLOR = "#2e6c47"
 
 PWA_APP_ICONS = [
     {
