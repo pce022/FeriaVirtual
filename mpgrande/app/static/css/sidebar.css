@@ -104,7 +104,7 @@ p{
 }
 .cont-menu{
     width: 100%;
-    max-width: 250px;
+    max-width: 350px;
     background: rgb(38, 97, 38);
     height: 100vh;
     position: relative;
@@ -121,10 +121,11 @@ p{
 .cont-menu nav a{
     display: block;
     text-decoration: none;
-    padding: 20px;
+    padding: 5px;
     color: white;
     border-left: 5px solid transparent;
     transition: all 400ms ease;
+    font-size: 20px;
 }
 .cont-menu nav a:hover{
     border-left: 5px solid white;

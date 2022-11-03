@@ -6,23 +6,19 @@
 
 
 {%block css%} 
-<link rel="stylesheet" href="{% static 'app/css/register.css'%}">
-<script src="https://kit.fontawesome.com/aaf2b92d6f.js"></script>
+<link rel="stylesheet" href="{% static '/css/register.css'%}">
+
 {%endblock%}
 <body>
-    {% load crispy_forms_tags%}
-
     <form method="post" class=" formulario contenedor input-contenedor">
-        <h1>Bienvenid@,<br> registra tus datos.</h1>
-
+        <h1 class="titleh1">Crear una cuenta</h1>
         {% csrf_token %}
-        {{form | crispy}}
+            {{ form }}
+        <input class="button" type="submit" value="Crear usuario">
+        <p><a class="link" href="{% url 'home' %}"> <br> Volver al inicio </a></p> 
+    </form>
+    
         
-    <input type="submit" value="Registrar" class="button"> 
-    <p>Al registrarte, aceptas nuestras Condiciones de uso y Política de privacidad.</p>
-    <p>¿Ya tienes una cuenta? <a class="link" href="{% url 'login' %}">Inicia sesión </a></p>
-    <a class="link" href="{% url 'home' %}">Ir al inicio </a></p> 
-    </form>     
+</body>
 
-   </body>
 {% endblock %}

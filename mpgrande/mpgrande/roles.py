@@ -1,7 +1,7 @@
 from rolepermissions.roles import AbstractUserRole
 
 #EJEMPLOS DE PRUEBA
-class Entrada(AbstractUserRole):
+class Inicial(AbstractUserRole):
     available_permissions = {
         'create_record': True,
     }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    {%load static%}
+    <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+     <!-- estilos -->
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <!-- estilos -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    {% load pwa %}
+    {% progressive_web_app_meta %}
+
+</head>
+<header class="header">
+    <div class="container logo-nav-container">
+        <h1 id="h1estilo" >Maipo grande</h1>
+        <nav class="navigation">
+            <ul>
+                <li>
+                    <a href="{% url 'home' %}">Home</a>
+                    
+                    <a href="#">Nosotros</a>
+                    {% if user.is_authenticated %} 
+                    <a href="#" id="none">Usuario: {{user.username}}</a> 
+                    <a href="{% url 'index' %}">Perfil</a>
+                    <a href="{% url 'logout' %}">Cerrar sesión</a>
+                    {% else %}
+                    <a href="/accounts/login/">Inicia sesión</a>
+                    {% endif %}
+                    
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+{% block content %}
+
+{% endblock  %}
+
+
+</html>

@@ -14,7 +14,7 @@
     {%load static%}
     <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
      <!-- estilos -->
-    <link rel="stylesheet" href="{% static '/css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
     <!-- estilos -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -32,15 +32,16 @@
         <nav class="navigation">
             <ul>
                 <li>
-                    <a href="#">Nosotros</a>
+                    
                     {% if user.is_authenticated %} 
                     <a href="#" id="none">Usuario: {{user.username}}</a> 
-                    <a href="{% url 'index' %}">Perfil</a>
+                    <a href="{% url 'index' %}">Principal</a>
                     <a href="{% url 'logout' %}">Cerrar sesión</a>
                     {% else %}
                     <a href="/accounts/login/">Inicia sesión</a>
                     <a href="/message_register">Solicitud de registro</a>
                     {% endif %}
+                    <a href="#">Nosotros</a>
                 </li>
             </ul>
         </nav>

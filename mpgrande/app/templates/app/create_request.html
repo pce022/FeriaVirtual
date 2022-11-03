@@ -67,14 +67,14 @@
                                         <td>{{ p.nombre_fruta_espacio3  }} {{ p.kilos_fruta_espacio3 }} Kilos </td>
                                         <td>
                                             {% load permission_tags %}
-                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente" and p.usuario_fk.username == user.username  or  user|has_role:'moderador'  %}
+                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Pendiente" and p.usuario_fk.username == user.username  or  user|has_role:'administrador'  %}
                                             <a href="{%  url 'modify_request' p.id %}" class="btn btn-info btn-sm ">Modificar</a>
                                             {% endif %}
                                             <a href="#" onclick="eliminarSolicitud({{ p.id }})  " class="btn btn-danger btn-sm ">Eliminar</a>
                                             {% if  user|has_role:'administrador'  %}
                                             <a href="{%  url 'modify_status_request' p.id %}" class="btn btn-info btn-sm ">Modificar Estado</a>
                                             {% endif %}
-                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Aprobado" and user|has_role:'moderador'  %}
+                                            {% if p.fk_estado_solicitud.desc_estado_solicitud  == "Aprobado" and user|has_role:'administrador'  %}
                                             <a href="{%  url 'producer_create_request' p.id %}" class="btn btn-info btn-sm ">Crear lote</a>
                                             {% endif %}
                                         </td>
