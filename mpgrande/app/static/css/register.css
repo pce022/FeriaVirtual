@@ -12,24 +12,15 @@ body {
 * {
     box-sizing: border-box;
 }
-
-.formulario{
-    background: rgb(255, 255, 255);
-    margin-top: 150px;
-    padding: 3px;
-    color: black;
-}
-
 .contenedor{
     width: 100%;
     padding: 60px;
 }
-.input-contenedor{
-    margin-bottom: 15px;
-    border: 1px solid #aaa;
+.formulario{
+    background: #fff;
+    margin-top: 150px;
+    padding: 3px;
 }
-
-
 h1{
     font-size: 40px;
     text-align: center;
@@ -38,14 +29,16 @@ h1{
     color: #2e6c47;
 }
 input[type="text"],
-input[type="password"],
-input[type="email"]{
-    font-size: 15px;
+input[type="password"]{
+    font-size: 20px;
     width: 100%;
     padding: 10px 20px;
     margin-top: 10px;
 }
-
+.input-contenedor{
+    margin-bottom: 15px;
+    border: 1px solid #aaa;
+}
 .icon{
     min-width: 50px;
     text-align: center;
